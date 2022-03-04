@@ -14,7 +14,39 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@lab-studio/front/feature/experiment-tab/slice": [
+        "libs/front/feature/experiment-tab/slice/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/boolean-input": [
+        "libs/front/ui/experiment-tab/boolean-input/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/enum-input": [
+        "libs/front/ui/experiment-tab/enum-input/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/experiment": [
+        "libs/front/ui/experiment-tab/experiment/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/form-props": [
+        "libs/front/ui/experiment-tab/form-props/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/input-props": [
+        "libs/front/ui/experiment-tab/input-props/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/number-input": [
+        "libs/front/ui/experiment-tab/number-input/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/string-input": [
+        "libs/front/ui/experiment-tab/string-input/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/sub-recipe-form": [
+        "libs/front/ui/experiment-tab/sub-recipe-form/src/index.ts"
+      ],
+      "@lab-studio/shared/data/recipe/recipe": [
+        "libs/shared/data/recipe/recipe/src/index.ts"
+      ],
+      "@lab-studio/shared/util/types": ["libs/shared/util/types/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

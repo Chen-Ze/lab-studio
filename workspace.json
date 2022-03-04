@@ -2,6 +2,23 @@
   "version": 2,
   "projects": {
     "front": "apps/front",
-    "front-e2e": "apps/front-e2e"
+    "front-e2e": "apps/front-e2e",
+    "front-feature-experiment-tab-slice": "libs/front/feature/experiment-tab/slice",
+    "front-ui-experiment-tab-boolean-input": "libs/front/ui/experiment-tab/boolean-input",
+    "front-ui-experiment-tab-boolean-input-e2e": "apps/front-ui-experiment-tab-boolean-input-e2e",
+    "front-ui-experiment-tab-enum-input": "libs/front/ui/experiment-tab/enum-input",
+    "front-ui-experiment-tab-enum-input-e2e": "apps/front-ui-experiment-tab-enum-input-e2e",
+    "front-ui-experiment-tab-experiment": "libs/front/ui/experiment-tab/experiment",
+    "front-ui-experiment-tab-experiment-e2e": "apps/front-ui-experiment-tab-experiment-e2e",
+    "front-ui-experiment-tab-form-props": "libs/front/ui/experiment-tab/form-props",
+    "front-ui-experiment-tab-input-props": "libs/front/ui/experiment-tab/input-props",
+    "front-ui-experiment-tab-number-input": "libs/front/ui/experiment-tab/number-input",
+    "front-ui-experiment-tab-number-input-e2e": "apps/front-ui-experiment-tab-number-input-e2e",
+    "front-ui-experiment-tab-string-input": "libs/front/ui/experiment-tab/string-input",
+    "front-ui-experiment-tab-string-input-e2e": "apps/front-ui-experiment-tab-string-input-e2e",
+    "front-ui-experiment-tab-sub-recipe-form": "libs/front/ui/experiment-tab/sub-recipe-form",
+    "front-ui-experiment-tab-sub-recipe-form-e2e": "apps/front-ui-experiment-tab-sub-recipe-form-e2e",
+    "shared-data-recipe-recipe": "libs/shared/data/recipe/recipe",
+    "shared-util-types": "libs/shared/util/types"
   }
 }
