@@ -3,15 +3,16 @@ import { SubType } from '@lab-studio/shared/util/types';
 import { FormControlLabel, Switch } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';
+import { PickByValueExact } from 'utility-types';
 
 type BooleanInputProps<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, boolean>
+  TEntry extends keyof PickByValueExact<TRecipe, boolean>
 > = InputProps<boolean, TRecipe, TEntry>;
 
 export function FrontUiExperimentTabBooleanInput<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, boolean>
+  TEntry extends keyof PickByValueExact<TRecipe, boolean>
 >(props: BooleanInputProps<TRecipe, TEntry>) {
   return (
     <FormControlLabel

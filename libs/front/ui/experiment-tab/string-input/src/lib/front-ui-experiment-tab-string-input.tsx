@@ -1,18 +1,17 @@
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
-import { SubType } from '@lab-studio/shared/util/types';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';
+import { PickByValueExact } from 'utility-types';
 
 type StringInputProps<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, string>
+  TEntry extends keyof PickByValueExact<TRecipe, string>
 > = InputProps<string, TRecipe, TEntry>;
 
 export function FrontUiExperimentTabStringInput<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, string>
+  TEntry extends keyof PickByValueExact<TRecipe, string>
 >(props: StringInputProps<TRecipe, TEntry>) {
   return (
     <TextField

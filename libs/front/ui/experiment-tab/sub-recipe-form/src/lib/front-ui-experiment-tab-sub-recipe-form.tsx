@@ -1,14 +1,15 @@
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
 import { SubType } from '@lab-studio/shared/util/types';
+import { PickByValueExact } from 'utility-types';
 
 interface SubRecipeFormProps<
   TRecipe,
   TSubRecipe,
-  TEntry extends keyof SubType<TRecipe, TSubRecipe>
+  TEntry extends keyof PickByValueExact<TRecipe, TSubRecipe>
 > {
   parentRecipeFormProps: RecipeFormProps<TRecipe>;
-  entry: TRecipe[TEntry] extends TSubRecipe ? TEntry : never;
+  entry: TEntry;
   subRecipeForm: (props: RecipeFormProps<TSubRecipe>) => JSX.Element;
   allocator: {
     new (): TSubRecipe;
@@ -18,7 +19,7 @@ interface SubRecipeFormProps<
 function FrontUiExperimentTabSubRecipeForm<
   TRecipe,
   TSubRecipe,
-  TEntry extends keyof SubType<TRecipe, TSubRecipe>
+  TEntry extends keyof PickByValueExact<TRecipe, TSubRecipe>
 >(props: SubRecipeFormProps<TRecipe, TSubRecipe, TEntry>) {
   return props.subRecipeForm({
     recipe: props.parentRecipeFormProps.recipe[
@@ -49,9 +50,10 @@ export function makeSubRecipeInput<TSubRecipe>(
   >['subRecipeForm'],
   allocator: SubRecipeFormProps<unknown, TSubRecipe, never>['allocator']
 ) {
-  return function <TRecipe, TEntry extends keyof SubType<TRecipe, TSubRecipe>>(
-    props: InputProps<TSubRecipe, TRecipe, TEntry>
-  ) {
+  return function <
+    TRecipe,
+    TEntry extends keyof PickByValueExact<TRecipe, TSubRecipe>
+  >(props: InputProps<TSubRecipe, TRecipe, TEntry>) {
     return (
       <FrontUiExperimentTabSubRecipeForm
         {...props}

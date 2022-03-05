@@ -5,11 +5,7 @@ export function sharedDataRecipeRecipe(): string {
   return 'shared-data-recipe-recipe';
 }
 
-export type RecipeInfo<TRecipe> = TRecipe extends
-  | number
-  | string
-  | boolean
-  | bigint
+export type RecipeInfo<TRecipe> = TRecipe extends Primitive
   ? {
       errorMessage?: string;
     }

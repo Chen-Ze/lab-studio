@@ -3,11 +3,12 @@ import { SubType } from '@lab-studio/shared/util/types';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';
+import { PickByValueExact } from 'utility-types';
 
 interface EnumInputProps<
   TEnum extends string,
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, TEnum>
+  TEntry extends keyof PickByValueExact<TRecipe, TEnum>
 > extends InputProps<TEnum, TRecipe, TEntry> {
   enumObject: {
     [key: string]: TEnum;
@@ -17,7 +18,7 @@ interface EnumInputProps<
 export function FrontUiExperimentTabEnumInput<
   TEnum extends string,
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, TEnum>
+  TEntry extends keyof PickByValueExact<TRecipe, TEnum>
 >(props: EnumInputProps<TEnum, TRecipe, TEntry>) {
   return (
     <FormControl variant="standard" sx={{ m: 1, width: props.width || '25ch' }}>

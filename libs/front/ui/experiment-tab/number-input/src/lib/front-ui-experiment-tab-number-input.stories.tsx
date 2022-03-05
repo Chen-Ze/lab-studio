@@ -9,6 +9,7 @@ export default {
 
 class Recipe {
   someValue = 0;
+  someBoolean = false;
 }
 
 const Template: Story = (args) => {

@@ -7,17 +7,18 @@ import { useObservableCallback, useSubscription } from 'observable-hooks';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { debounceTime, filter, pluck } from 'rxjs';
 import titleize from 'titleize';
+import { PickByValue, PickByValueExact } from 'utility-types';
 
 type NumberInputProps<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, number>
+  TEntry extends keyof PickByValueExact<TRecipe, number>
 > = InputProps<number, TRecipe, TEntry>;
 
 const DEBOUNCE = 500;
 
 export function FrontUiExperimentTabNumberInput<
   TRecipe,
-  TEntry extends keyof SubType<TRecipe, number>
+  TEntry extends keyof PickByValueExact<TRecipe, number>
 >(props: NumberInputProps<TRecipe, TEntry>) {
   const [value, setValue] = useState(
     props.parentRecipeFormProps.recipe[props.entry]
@@ -44,10 +45,7 @@ export function FrontUiExperimentTabNumberInput<
       new props.parentRecipeFormProps.allocator(),
       props.parentRecipeFormProps.recipe
     );
-    newRecipe[props.entry] =
-      +value as unknown as TRecipe[TRecipe[TEntry] extends number
-        ? TEntry
-        : never];
+    newRecipe[props.entry] = +value as unknown as TRecipe[TEntry];
     props.parentRecipeFormProps.onChange(newRecipe);
   });
 
