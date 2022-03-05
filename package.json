@@ -80,10 +80,13 @@
     "@mui/material": "^5.4.4",
     "@nrwl/next": "13.8.3",
     "@reduxjs/toolkit": "1.6.2",
+    "@types/lodash": "^4.14.179",
     "class-transformer": "^0.5.1",
     "core-js": "^3.6.5",
     "humanize-string": "^3.0.0",
+    "immer": "^9.0.12",
     "is-number": "^7.0.0",
+    "lodash": "^4.17.21",
     "next": "12.1.0",
     "observable-hooks": "^4.2.0",
     "ramda": "^0.28.0",
@@ -96,6 +99,7 @@
     "rxjs": "^7.5.4",
     "styled-components": "5.3.3",
     "titleize": "^3.0.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "utility-types": "^3.10.0"
   }
 }

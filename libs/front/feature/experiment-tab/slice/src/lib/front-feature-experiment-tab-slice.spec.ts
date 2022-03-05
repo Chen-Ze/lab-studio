@@ -1,9 +1,12 @@
-import { frontFeatureExperimentTabSlice } from './front-feature-experiment-tab-slice';
+import { makeRecipeSlice } from './front-feature-experiment-tab-slice';
+
+class Recipe {
+  value = 0;
+}
 
 describe('frontFeatureExperimentTabSlice', () => {
   it('should work', () => {
-    expect(frontFeatureExperimentTabSlice()).toEqual(
-      'front-feature-experiment-tab-slice'
-    );
+    const slice = makeRecipeSlice(Recipe, 'RECIPE');
+    expect(slice).toBeTruthy();
   });
 });

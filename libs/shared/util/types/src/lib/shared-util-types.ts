@@ -10,3 +10,13 @@ export type SubType<Base, Condition> = Pick<
   Base,
   AllowedNames<Base, Condition>
 >;
+
+export type ConvertLeafType<T, TFrom, TTo> = T extends TFrom
+  ? TFrom extends T
+    ? TTo
+    : {
+        [key in keyof T]: ConvertLeafType<T[key], TFrom, TTo>;
+      }
+  : {
+      [key in keyof T]: ConvertLeafType<T[key], TFrom, TTo>;
+    };

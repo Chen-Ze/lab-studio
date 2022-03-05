@@ -14,11 +14,14 @@
     "front-ui-experiment-tab-input-props": "libs/front/ui/experiment-tab/input-props",
     "front-ui-experiment-tab-number-input": "libs/front/ui/experiment-tab/number-input",
     "front-ui-experiment-tab-number-input-e2e": "apps/front-ui-experiment-tab-number-input-e2e",
+    "front-ui-experiment-tab-recipe-output-form": "libs/front/ui/experiment-tab/recipe-output-form",
+    "front-ui-experiment-tab-recipe-output-form-e2e": "apps/front-ui-experiment-tab-recipe-output-form-e2e",
     "front-ui-experiment-tab-string-input": "libs/front/ui/experiment-tab/string-input",
     "front-ui-experiment-tab-string-input-e2e": "apps/front-ui-experiment-tab-string-input-e2e",
     "front-ui-experiment-tab-sub-recipe-form": "libs/front/ui/experiment-tab/sub-recipe-form",
     "front-ui-experiment-tab-sub-recipe-form-e2e": "apps/front-ui-experiment-tab-sub-recipe-form-e2e",
     "shared-data-recipe-recipe": "libs/shared/data/recipe/recipe",
+    "shared-data-recipe-recipe-output": "libs/shared/data/recipe/recipe-output",
     "shared-util-types": "libs/shared/util/types"
   }
 }

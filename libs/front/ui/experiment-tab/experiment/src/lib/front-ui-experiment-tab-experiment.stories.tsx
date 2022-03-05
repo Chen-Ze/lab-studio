@@ -1,14 +1,19 @@
-import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
-import { Story, Meta } from '@storybook/react';
-import { Type } from 'class-transformer';
-import { makeExperiment } from './front-ui-experiment-tab-experiment';
-import 'reflect-metadata';
+import { BooleanInput } from '@lab-studio/front/ui/experiment-tab/boolean-input';
+import { EnumInput } from '@lab-studio/front/ui/experiment-tab/enum-input';
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
 import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { makeSubRecipeInput } from '@lab-studio/front/ui/experiment-tab/sub-recipe-form';
-import { EnumInput } from '@lab-studio/front/ui/experiment-tab/enum-input';
-import { BooleanInput } from '@lab-studio/front/ui/experiment-tab/boolean-input';
-import { useState } from 'react';
+import {
+  ExperimentMeasurement,
+  PlainifiedRecipe,
+} from '@lab-studio/shared/data/recipe/recipe';
+import { RecipeOutputFlags } from '@lab-studio/shared/data/recipe/recipe-output';
+import { useArgs } from '@storybook/client-api';
+import { Meta, Story } from '@storybook/react';
+import { instanceToPlain, Type } from 'class-transformer';
+import * as R from 'ramda';
+import 'reflect-metadata';
+import { makeExperiment } from './front-ui-experiment-tab-experiment';
 
 enum ChannelMode {
   SweepCurrent = 'Sweep Current',
@@ -17,42 +22,32 @@ enum ChannelMode {
   FixedVoltage = 'Fixed Voltage',
 }
 
-class SweepRecipe {
+abstract class ChannelModeRecipe {}
+
+class SweepRecipe extends ChannelModeRecipe {
   start = 0;
   step = 1e-5;
   stop = 1e-4;
+  unit = 'V';
 }
 
-class SweepCurrentRecipe extends SweepRecipe {}
-
-class SweepVoltageRecipe extends SweepRecipe {}
-
 function SweepRecipeForm(props: RecipeFormProps<SweepRecipe>) {
-  const postfix = ((recipe: SweepRecipe) => {
-    if (recipe instanceof SweepCurrentRecipe) {
-      return 'A';
-    } else if (recipe instanceof SweepVoltageRecipe) {
-      return 'V';
-    } else {
-      return '';
-    }
-  })(props.recipe);
   return (
     <div>
       <NumberInput
         parentRecipeFormProps={props}
         entry="start"
-        postfix={postfix}
+        postfix={props.recipe.unit}
       />
       <NumberInput
         parentRecipeFormProps={props}
         entry="stop"
-        postfix={postfix}
+        postfix={props.recipe.unit}
       />
       <NumberInput
         parentRecipeFormProps={props}
         entry="step"
-        postfix={postfix}
+        postfix={props.recipe.unit}
       />
     </div>
   );
@@ -60,30 +55,18 @@ function SweepRecipeForm(props: RecipeFormProps<SweepRecipe>) {
 
 const SweepRecipeInput = makeSubRecipeInput(SweepRecipeForm, SweepRecipe);
 
-class FixedRecipe {
+class FixedRecipe extends ChannelModeRecipe {
   value = 0;
+  unit = 'V';
 }
 
-class FixedCurrentRecipe extends FixedRecipe {}
-
-class FixedVoltageRecipe extends FixedRecipe {}
-
 function FixedRecipeForm(props: RecipeFormProps<FixedRecipe>) {
-  const postfix = ((recipe: FixedRecipe) => {
-    if (recipe instanceof FixedCurrentRecipe) {
-      return 'A';
-    } else if (recipe instanceof FixedVoltageRecipe) {
-      return 'V';
-    } else {
-      return '';
-    }
-  })(props.recipe);
   return (
     <div>
       <NumberInput
         parentRecipeFormProps={props}
         entry="value"
-        postfix={postfix}
+        postfix={props.recipe.unit}
       />
     </div>
   );
@@ -102,34 +85,41 @@ class ChannelRecipe {
     this._mode = _mode;
     switch (_mode) {
       case ChannelMode.FixedCurrent:
-        this.recipe = new FixedCurrentRecipe();
+        this.recipe = new FixedRecipe();
+        this.recipe.unit = 'A';
         break;
       case ChannelMode.FixedVoltage:
-        this.recipe = new FixedVoltageRecipe();
+        this.recipe = new FixedRecipe();
+        this.recipe.unit = 'V';
         break;
       case ChannelMode.SweepCurrent:
-        this.recipe = new SweepCurrentRecipe();
+        this.recipe = new SweepRecipe();
+        this.recipe.unit = 'A';
         break;
       case ChannelMode.SweepVoltage:
-        this.recipe = new SweepVoltageRecipe();
+        this.recipe = new SweepRecipe();
+        this.recipe.unit = 'V';
         break;
     }
   }
 
   turnOffAfterDone = false;
 
-  @Type(() => Object, {
+  @Type(() => ChannelModeRecipe, {
     discriminator: {
-      property: '_mode',
+      property: '__mode',
       subTypes: [
-        { value: FixedCurrentRecipe, name: ChannelMode.FixedCurrent },
-        { value: FixedVoltageRecipe, name: ChannelMode.FixedVoltage },
-        { value: SweepCurrentRecipe, name: ChannelMode.SweepCurrent },
-        { value: SweepVoltageRecipe, name: ChannelMode.SweepVoltage },
+        { value: FixedRecipe, name: ChannelMode.FixedCurrent },
+        { value: FixedRecipe, name: ChannelMode.FixedVoltage },
+        { value: SweepRecipe, name: ChannelMode.SweepCurrent },
+        { value: SweepRecipe, name: ChannelMode.SweepVoltage },
       ],
     },
+    // default should be false by the docs, not so in fact however
+    // this option also seems not working
+    keepDiscriminatorProperty: false,
   })
-  recipe: FixedRecipe | SweepRecipe = new FixedVoltageRecipe();
+  recipe: FixedRecipe | SweepRecipe = new FixedRecipe();
 }
 
 function ChannelRecipeForm(props: RecipeFormProps<ChannelRecipe>) {
@@ -164,6 +154,39 @@ class Recipe {
   channelARecipe = new ChannelRecipe();
   @Type(() => ChannelRecipe)
   channelBRecipe = new ChannelRecipe();
+
+  output(): RecipeOutputFlags {
+    return {
+      innerOutputList: {
+        'Channel A Current':
+          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+          this.channelARecipe.mode === ChannelMode.SweepVoltage,
+        'Channel A Voltage':
+          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+          this.channelARecipe.mode === ChannelMode.SweepCurrent,
+        'Channel B Current':
+          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+          this.channelBRecipe.mode === ChannelMode.SweepVoltage,
+        'Channel B Voltage':
+          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+          this.channelBRecipe.mode === ChannelMode.SweepCurrent,
+      },
+      outerOutputList: {
+        'All Channel A Currents':
+          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+          this.channelARecipe.mode === ChannelMode.SweepVoltage,
+        'All Channel A Voltages':
+          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+          this.channelARecipe.mode === ChannelMode.SweepCurrent,
+        'All Channel B Currents':
+          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+          this.channelBRecipe.mode === ChannelMode.SweepVoltage,
+        'All Channel B Voltages':
+          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+          this.channelBRecipe.mode === ChannelMode.SweepCurrent,
+      },
+    };
+  }
 }
 
 function RecipeForm(props: RecipeFormProps<Recipe>) {
@@ -181,17 +204,41 @@ function RecipeForm(props: RecipeFormProps<Recipe>) {
   );
 }
 
-const RecipeExperiment = makeExperiment(RecipeForm, Recipe);
+const RecipeExperiment = makeExperiment(RecipeForm, Recipe, (recipe) =>
+  recipe.output()
+);
 
 export default {
   component: RecipeExperiment,
   title: 'RecipeExperiment',
 } as Meta;
 
-const Template: Story = (args) => {
-  const [recipe, setRecipe] = useState(new Recipe());
-  return <RecipeExperiment recipe={recipe} onChange={setRecipe} />;
+const Template: Story<{
+  experimentMeasurement: ExperimentMeasurement<Recipe>;
+  columns: string[];
+}> = (args) => {
+  const [argValues, updateArgs] = useArgs();
+  return (
+    <RecipeExperiment
+      {...args}
+      onChange={(experimentMeasurement) =>
+        updateArgs({ experimentMeasurement })
+      }
+    />
+  );
 };
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  experimentMeasurement: {
+    plainifiedRecipe: instanceToPlain(new Recipe()) as PlainifiedRecipe<Recipe>,
+    recipeOutput: R.mapObjIndexed(
+      R.pipe(
+        R.filter(Boolean),
+        R.mapObjIndexed(() => ({}))
+      ),
+      new Recipe().output()
+    ),
+  },
+  columns: ['ia', 'va', 'ib', 'vb'],
+};

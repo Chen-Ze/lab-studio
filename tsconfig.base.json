@@ -36,6 +36,9 @@
       "@lab-studio/front/ui/experiment-tab/number-input": [
         "libs/front/ui/experiment-tab/number-input/src/index.ts"
       ],
+      "@lab-studio/front/ui/experiment-tab/recipe-output-form": [
+        "libs/front/ui/experiment-tab/recipe-output-form/src/index.ts"
+      ],
       "@lab-studio/front/ui/experiment-tab/string-input": [
         "libs/front/ui/experiment-tab/string-input/src/index.ts"
       ],
@@ -44,6 +47,9 @@
       ],
       "@lab-studio/shared/data/recipe/recipe": [
         "libs/shared/data/recipe/recipe/src/index.ts"
+      ],
+      "@lab-studio/shared/data/recipe/recipe-output": [
+        "libs/shared/data/recipe/recipe-output/src/index.ts"
       ],
       "@lab-studio/shared/util/types": ["libs/shared/util/types/src/index.ts"]
     }
