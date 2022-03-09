@@ -1,0 +1,27 @@
+{
+  "root": "libs/front/feature/experiment-tab/experiment-renderer",
+  "sourceRoot": "libs/front/feature/experiment-tab/experiment-renderer/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front/feature/experiment-tab/experiment-renderer/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/front/feature/experiment-tab/experiment-renderer"
+      ],
+      "options": {
+        "jestConfig": "libs/front/feature/experiment-tab/experiment-renderer/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

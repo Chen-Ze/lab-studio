@@ -7,7 +7,10 @@ import {
   ExperimentMeasurement,
   PlainifiedRecipe,
 } from '@lab-studio/shared/data/recipe/recipe';
-import { RecipeOutputFlags } from '@lab-studio/shared/data/recipe/recipe-output';
+import {
+  RecipeOutputDeclarations,
+  RecipeOutputTypes,
+} from '@lab-studio/shared/data/recipe/recipe-output';
 import { useArgs } from '@storybook/client-api';
 import { Meta, Story } from '@storybook/react';
 import { instanceToPlain, Type } from 'class-transformer';
@@ -155,35 +158,51 @@ class Recipe {
   @Type(() => ChannelRecipe)
   channelBRecipe = new ChannelRecipe();
 
-  output(): RecipeOutputFlags {
+  output(): RecipeOutputDeclarations {
     return {
       innerOutputList: {
         'Channel A Current':
           this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage,
+          this.channelARecipe.mode === ChannelMode.SweepVoltage
+            ? RecipeOutputTypes.Number
+            : RecipeOutputTypes.None,
         'Channel A Voltage':
           this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent,
+          this.channelARecipe.mode === ChannelMode.SweepCurrent
+            ? RecipeOutputTypes.Number
+            : RecipeOutputTypes.None,
         'Channel B Current':
           this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage,
+          this.channelBRecipe.mode === ChannelMode.SweepVoltage
+            ? RecipeOutputTypes.Number
+            : RecipeOutputTypes.None,
         'Channel B Voltage':
           this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent,
+          this.channelBRecipe.mode === ChannelMode.SweepCurrent
+            ? RecipeOutputTypes.Number
+            : RecipeOutputTypes.None,
       },
       outerOutputList: {
         'All Channel A Currents':
           this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage,
+          this.channelARecipe.mode === ChannelMode.SweepVoltage
+            ? RecipeOutputTypes.NumberArray
+            : RecipeOutputTypes.None,
         'All Channel A Voltages':
           this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent,
+          this.channelARecipe.mode === ChannelMode.SweepCurrent
+            ? RecipeOutputTypes.NumberArray
+            : RecipeOutputTypes.None,
         'All Channel B Currents':
           this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage,
+          this.channelBRecipe.mode === ChannelMode.SweepVoltage
+            ? RecipeOutputTypes.NumberArray
+            : RecipeOutputTypes.None,
         'All Channel B Voltages':
           this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent,
+          this.channelBRecipe.mode === ChannelMode.SweepCurrent
+            ? RecipeOutputTypes.NumberArray
+            : RecipeOutputTypes.None,
       },
     };
   }
@@ -234,8 +253,10 @@ Default.args = {
     plainifiedRecipe: instanceToPlain(new Recipe()) as PlainifiedRecipe<Recipe>,
     recipeOutput: R.mapObjIndexed(
       R.pipe(
-        R.filter(Boolean),
-        R.mapObjIndexed(() => ({}))
+        R.filter((type) => type !== RecipeOutputTypes.None),
+        R.mapObjIndexed((type) => ({
+          type,
+        }))
       ),
       new Recipe().output()
     ),

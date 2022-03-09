@@ -1,0 +1,27 @@
+{
+  "root": "libs/front/feature/experiment-tab/experiment-environment-reducer-provider",
+  "sourceRoot": "libs/front/feature/experiment-tab/experiment-environment-reducer-provider/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front/feature/experiment-tab/experiment-environment-reducer-provider/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/front/feature/experiment-tab/experiment-environment-reducer-provider"
+      ],
+      "options": {
+        "jestConfig": "libs/front/feature/experiment-tab/experiment-environment-reducer-provider/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

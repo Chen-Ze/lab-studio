@@ -5,7 +5,8 @@ import {
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
   RecipeOutput,
-  RecipeOutputFlags,
+  RecipeOutputDeclarations,
+  RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 import * as R from 'ramda';
@@ -26,7 +27,7 @@ const DivCentered = styled.div`
 export function makeExperiment<TRecipe>(
   experimentForm: (props: RecipeFormProps<TRecipe>) => JSX.Element,
   allocator: { new (): TRecipe },
-  getRecipeOutput: (recipe: TRecipe) => RecipeOutputFlags
+  getRecipeOutput: (recipe: TRecipe) => RecipeOutputDeclarations
 ) {
   return (experimentProps: ExperimentProps<TRecipe>) => {
     const recipe = plainToInstance(
@@ -43,11 +44,11 @@ export function makeExperiment<TRecipe>(
               const oldRecipeOutput =
                 experimentProps.experimentMeasurement.recipeOutput;
               const filteredInnerOutputFlags = R.filter(
-                (x) => x,
+                (x) => x !== RecipeOutputTypes.None,
                 newRecipeOutputFlags.innerOutputList
               );
               const filteredOuterOutputFlags = R.filter(
-                (x) => x,
+                (x) => x !== RecipeOutputTypes.None,
                 newRecipeOutputFlags.outerOutputList
               );
               const newRecipeOutput: RecipeOutput = {

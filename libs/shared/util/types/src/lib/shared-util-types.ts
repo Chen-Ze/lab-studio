@@ -27,3 +27,19 @@ export type ConvertLeafType<T, TFrom, TTo> = T extends TFrom
   : {
       [key in keyof T]: ConvertLeafType<T[key], TFrom, TTo>;
     };
+
+export interface Typed<T> {
+  _type: string;
+  data: T;
+}
+
+export function encodeType<T>(_type: string, data: T): Typed<T> {
+  return {
+    _type,
+    data,
+  };
+}
+
+export function decodeType<T>(dataTyped: Typed<T>): T {
+  return dataTyped.data;
+}

@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/data/recipe/experiment-scope",
+  "sourceRoot": "libs/shared/data/recipe/experiment-scope/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/data/recipe/experiment-scope/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/data/recipe/experiment-scope"],
+      "options": {
+        "jestConfig": "libs/shared/data/recipe/experiment-scope/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

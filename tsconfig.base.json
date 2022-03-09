@@ -15,6 +15,27 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lab-studio/front/feature/experiment-tab/experiment-default-input-provider": [
+        "libs/front/feature/experiment-tab/experiment-default-input-provider/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/experiment-environment-reducer": [
+        "libs/front/feature/experiment-tab/experiment-environment-reducer/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/experiment-environment-reducer-provider": [
+        "libs/front/feature/experiment-tab/experiment-environment-reducer-provider/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/experiment-menu-renderer": [
+        "libs/front/feature/experiment-tab/experiment-menu-renderer/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/experiment-renderer": [
+        "libs/front/feature/experiment-tab/experiment-renderer/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/experiment-renderer-provider": [
+        "libs/front/feature/experiment-tab/experiment-renderer-provider/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/routine-renderer": [
+        "libs/front/feature/experiment-tab/routine-renderer/src/index.ts"
+      ],
       "@lab-studio/front/feature/experiment-tab/slice": [
         "libs/front/feature/experiment-tab/slice/src/index.ts"
       ],
@@ -26,6 +47,12 @@
       ],
       "@lab-studio/front/ui/experiment-tab/experiment": [
         "libs/front/ui/experiment-tab/experiment/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/experiment-menu": [
+        "libs/front/ui/experiment-tab/experiment-menu/src/index.ts"
+      ],
+      "@lab-studio/front/ui/experiment-tab/experiment-routine": [
+        "libs/front/ui/experiment-tab/experiment-routine/src/index.ts"
       ],
       "@lab-studio/front/ui/experiment-tab/form-props": [
         "libs/front/ui/experiment-tab/form-props/src/index.ts"
@@ -44,6 +71,9 @@
       ],
       "@lab-studio/front/ui/experiment-tab/sub-recipe-form": [
         "libs/front/ui/experiment-tab/sub-recipe-form/src/index.ts"
+      ],
+      "@lab-studio/shared/data/recipe/experiment-scope": [
+        "libs/shared/data/recipe/experiment-scope/src/index.ts"
       ],
       "@lab-studio/shared/data/recipe/recipe": [
         "libs/shared/data/recipe/recipe/src/index.ts"
