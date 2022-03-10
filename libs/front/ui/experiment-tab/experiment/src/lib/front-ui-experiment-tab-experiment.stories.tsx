@@ -50,7 +50,7 @@ class SweepRecipe extends ChannelModeRecipe {
       },
       stop: {
         errorMessage:
-          Math.abs(this.step) > 1e2 ? 'Input too large (> 100)' : undefined,
+          Math.abs(this.stop) > 1e2 ? 'Input too large (> 100)' : undefined,
       },
     };
   }
