@@ -5,7 +5,7 @@ import { encodeType, Typed } from '@lab-studio/shared/util/types';
 import { instanceToPlain } from 'class-transformer';
 import { inject, injectable } from 'inversify';
 import * as R from 'ramda';
-import { JSXElementConstructor, ReactNode } from 'react';
+import React, { JSXElementConstructor, ReactNode } from 'react';
 import { ROUTINE_RENDERER_TYPES } from './routine-renderer-types';
 
 export interface Routine<TInput, TRoutineLabel> {
@@ -35,7 +35,10 @@ export interface SubroutineItemRenderer {
 export interface SubroutinesRendererProps {
   experiment: ReactNode;
   menu: ReactNode;
-  children: ReactNode;
+  subroutines: Array<{
+    render: () => JSX.Element;
+    key: string;
+  }>;
 }
 
 export interface SubroutinesRenderer {
@@ -134,37 +137,39 @@ export class RoutineRenderer<TRoutineLabel, TInput, TEnvironment> {
             }}
           />
         }
-      >
-        {childrenLabels.map((label, i) => (
-          <this.subroutineItemRenderer.render
-            key={JSON.stringify(instanceToPlain(label))}
-            onRemove={() => {
-              const removeRecursive = (label: TRoutineLabel) => {
-                const subroutines = routineService.find(label)?.subroutines;
-                if (subroutines) {
-                  subroutines.forEach((subroutine) =>
-                    routineService.remove(subroutine)
-                  );
-                }
-                routineService.remove(label);
-              };
-              removeRecursive(label);
-              routineService.update(experimentLabel, {
-                input: experimentInput,
-                subroutines: childrenLabels.filter(
-                  (childLabel) => childLabel !== label
-                ),
-              });
-            }}
-          >
-            <this.render
-              experimentLabel={label}
-              parentEnvironment={childrenEnvironment[i]}
-              routineService={routineService}
-            />
-          </this.subroutineItemRenderer.render>
-        ))}
-      </this.subroutinesRenderer.render>
+        subroutines={childrenLabels.map((label, i) => ({
+          render: () => (
+            <this.subroutineItemRenderer.render
+              key={JSON.stringify(instanceToPlain(label))}
+              onRemove={() => {
+                const removeRecursive = (label: TRoutineLabel) => {
+                  const subroutines = routineService.find(label)?.subroutines;
+                  if (subroutines) {
+                    subroutines.forEach((subroutine) =>
+                      routineService.remove(subroutine)
+                    );
+                  }
+                  routineService.remove(label);
+                };
+                removeRecursive(label);
+                routineService.update(experimentLabel, {
+                  input: experimentInput,
+                  subroutines: childrenLabels.filter(
+                    (childLabel) => childLabel !== label
+                  ),
+                });
+              }}
+            >
+              <this.render
+                experimentLabel={label}
+                parentEnvironment={childrenEnvironment[i]}
+                routineService={routineService}
+              />
+            </this.subroutineItemRenderer.render>
+          ),
+          key: JSON.stringify(instanceToPlain(label)),
+        }))}
+      />
     );
   };
 }

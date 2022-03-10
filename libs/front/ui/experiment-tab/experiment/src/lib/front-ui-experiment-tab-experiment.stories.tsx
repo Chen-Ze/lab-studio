@@ -6,6 +6,7 @@ import { makeSubRecipeInput } from '@lab-studio/front/ui/experiment-tab/sub-reci
 import {
   ExperimentMeasurement,
   PlainifiedRecipe,
+  RecipeInfo,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
   RecipeOutputDeclarations,
@@ -25,18 +26,44 @@ enum ChannelMode {
   FixedVoltage = 'Fixed Voltage',
 }
 
-abstract class ChannelModeRecipe {}
+abstract class ChannelModeRecipe {
+  abstract info(): RecipeInfo<ChannelModeRecipe>;
+}
 
 class SweepRecipe extends ChannelModeRecipe {
   start = 0;
   step = 1e-5;
   stop = 1e-4;
   unit = 'V';
+
+  info(): RecipeInfo<SweepRecipe> {
+    return {
+      start: {
+        errorMessage:
+          Math.abs(this.start) > 1e2 ? 'Input too large (> 100)' : undefined,
+      },
+      step: {
+        errorMessage:
+          Math.sign(this.step * (this.stop - this.start)) <= 0
+            ? 'Step sign should be inverted'
+            : undefined,
+      },
+      stop: {
+        errorMessage:
+          Math.abs(this.step) > 1e2 ? 'Input too large (> 100)' : undefined,
+      },
+    };
+  }
 }
 
 function SweepRecipeForm(props: RecipeFormProps<SweepRecipe>) {
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <NumberInput
         parentRecipeFormProps={props}
         entry="start"
@@ -61,6 +88,15 @@ const SweepRecipeInput = makeSubRecipeInput(SweepRecipeForm, SweepRecipe);
 class FixedRecipe extends ChannelModeRecipe {
   value = 0;
   unit = 'V';
+
+  info(): RecipeInfo<FixedRecipe> {
+    return {
+      value: {
+        errorMessage:
+          Math.abs(this.value) > 1e2 ? 'Input too large (> 100)' : undefined,
+      },
+    };
+  }
 }
 
 function FixedRecipeForm(props: RecipeFormProps<FixedRecipe>) {
@@ -123,6 +159,12 @@ class ChannelRecipe {
     keepDiscriminatorProperty: false,
   })
   recipe: FixedRecipe | SweepRecipe = new FixedRecipe();
+
+  info(): RecipeInfo<ChannelRecipe> {
+    return {
+      recipe: this.recipe.info(),
+    };
+  }
 }
 
 function ChannelRecipeForm(props: RecipeFormProps<ChannelRecipe>) {
@@ -206,6 +248,13 @@ class Recipe {
       },
     };
   }
+
+  info(): RecipeInfo<Recipe> {
+    return {
+      channelARecipe: this.channelARecipe.info(),
+      channelBRecipe: this.channelBRecipe.info(),
+    };
+  }
 }
 
 function RecipeForm(props: RecipeFormProps<Recipe>) {
@@ -223,8 +272,11 @@ function RecipeForm(props: RecipeFormProps<Recipe>) {
   );
 }
 
-const RecipeExperiment = makeExperiment(RecipeForm, Recipe, (recipe) =>
-  recipe.output()
+const RecipeExperiment = makeExperiment(
+  RecipeForm,
+  Recipe,
+  (recipe) => recipe.output(),
+  (recipe) => recipe.info()
 );
 
 export default {

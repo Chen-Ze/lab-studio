@@ -17,7 +17,7 @@ export interface MenuItemProps {
 
 export function ExperimentMenuItem(props: MenuItemProps) {
   return (
-    <Card elevation={0} sx={{ width: 120, height: 120 }}>
+    <Card elevation={0} sx={{ width: 120, height: 120, flexShrink: 0 }}>
       <CardActionArea
         sx={{
           position: 'relative',

@@ -2,6 +2,7 @@ import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props'
 import {
   ExperimentMeasurement,
   PlainifiedRecipe,
+  RecipeInfo,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
   RecipeOutput,
@@ -27,13 +28,15 @@ const DivCentered = styled.div`
 export function makeExperiment<TRecipe>(
   experimentForm: (props: RecipeFormProps<TRecipe>) => JSX.Element,
   allocator: { new (): TRecipe },
-  getRecipeOutput: (recipe: TRecipe) => RecipeOutputDeclarations
+  getRecipeOutput: (recipe: TRecipe) => RecipeOutputDeclarations,
+  getRecipeInfo?: (recipe: TRecipe) => RecipeInfo<TRecipe>
 ) {
   return (experimentProps: ExperimentProps<TRecipe>) => {
     const recipe = plainToInstance(
       allocator,
       experimentProps.experimentMeasurement.plainifiedRecipe
     );
+    const recipeInfo = getRecipeInfo?.(recipe);
     return (
       <div>
         <DivCentered>
@@ -69,6 +72,7 @@ export function makeExperiment<TRecipe>(
               });
             },
             allocator,
+            recipeInfo,
           })}
         </DivCentered>
         <div>

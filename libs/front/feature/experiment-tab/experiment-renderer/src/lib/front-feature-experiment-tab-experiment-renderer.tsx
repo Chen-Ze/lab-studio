@@ -43,9 +43,9 @@ export function shouldRender<
     TExperimentEnvironment
   >
 ) {
-  // eslint-disable-next-line
-  // @ts-ignore
   return (
+    // eslint-disable-next-line
+    // @ts-ignore
     Reflect.getMetadata('renderType', renderer) ===
     experimentInput.typedInput.inputData._type
   );

@@ -15,9 +15,7 @@ const foo: ExperimentRendererPropsTyped<
 > = {
   typedInput: {
     inputData: { _type: 'Foo', data: {} },
-    environmentData: {
-      $Global: null,
-    },
+    environmentData: {},
   },
   onChange: () => {
     /* Do nothing */

@@ -30,9 +30,9 @@ export class ExperimentRendererProvider {
         inputData={experiment.typedInput.inputData.data}
         environmentData={experiment.typedInput.environmentData}
         onChange={(newInput) => {
-          // eslint-disable-next-line
-          // @ts-ignore
           experiment.onChange(
+            // eslint-disable-next-line
+            // @ts-ignore
             typeRendererInput(rendererForExperiment, newInput)
           );
         }}

@@ -339,7 +339,11 @@ class SimpleSubroutinesRenderer implements SubroutinesRenderer {
             marginLeft: '10px',
           }}
         >
-          {props.children}
+          {props.subroutines.map((subroutine) => (
+            <div key={subroutine.key}>
+              <subroutine.render />
+            </div>
+          ))}
         </div>
       </div>
     );
