@@ -1,37 +1,60 @@
 {
   "root": "apps/front",
-  "sourceRoot": "apps/front",
+  "sourceRoot": "apps/front/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/next:build",
+      "executor": "@nrwl/web:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "root": "apps/front",
-        "outputPath": "dist/apps/front"
+        "compiler": "babel",
+        "outputPath": "dist/apps/front",
+        "index": "apps/front/src/index.html",
+        "baseHref": "/",
+        "main": "apps/front/src/main.tsx",
+        "polyfills": "apps/front/src/polyfills.ts",
+        "tsConfig": "apps/front/tsconfig.app.json",
+        "assets": ["apps/front/src/favicon.ico", "apps/front/src/assets"],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
       },
       "configurations": {
-        "production": {}
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/front/src/environments/environment.ts",
+              "with": "apps/front/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
       }
     },
     "serve": {
-      "executor": "@nrwl/next:server",
+      "executor": "@nrwl/web:dev-server",
       "options": {
         "buildTarget": "front:build",
-        "dev": true
+        "hmr": true
       },
       "configurations": {
         "production": {
           "buildTarget": "front:build:production",
-          "dev": false
+          "hmr": false
         }
       }
     },
-    "export": {
-      "executor": "@nrwl/next:export",
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "buildTarget": "front:build:production"
+        "lintFilePatterns": ["apps/front/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
@@ -40,13 +63,6 @@
       "options": {
         "jestConfig": "apps/front/jest.config.js",
         "passWithNoTests": true
-      }
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/front/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
