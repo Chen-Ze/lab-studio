@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
+    "experiments-container": "libs/experiments/container",
+    "experiments-container-e2e": "apps/experiments-container-e2e",
     "front": "apps/front",
     "front-e2e": "apps/front-e2e",
     "front-feature-experiment-tab-experiment-default-input-provider": "libs/front/feature/experiment-tab/experiment-default-input-provider",

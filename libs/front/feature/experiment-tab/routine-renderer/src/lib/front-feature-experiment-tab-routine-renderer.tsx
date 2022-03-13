@@ -23,26 +23,28 @@ export interface RoutineService<TRoutineLabel> {
   remove(label: TRoutineLabel): void;
 }
 
-export interface SubroutineItemRendererProps {
+export interface SubroutineItemRendererProps<TAdditional> {
   onRemove(): void;
   children: ReactNode;
+  additional: TAdditional;
 }
 
-export interface SubroutineItemRenderer {
-  render: JSXElementConstructor<SubroutineItemRendererProps>;
+export interface SubroutineItemRenderer<TAdditional> {
+  render: JSXElementConstructor<SubroutineItemRendererProps<TAdditional>>;
 }
 
-export interface SubroutinesRendererProps {
+export interface SubroutinesRendererProps<TAdditional> {
   experiment: ReactNode;
   menu: ReactNode;
   subroutines: Array<{
-    render: () => JSX.Element;
+    render: (additional: TAdditional) => JSX.Element;
     key: string;
   }>;
+  onMove: (sourceIndex: number, destinationIndex: number) => void;
 }
 
-export interface SubroutinesRenderer {
-  render: JSXElementConstructor<SubroutinesRendererProps>;
+export interface SubroutinesRenderer<TAdditional> {
+  render: JSXElementConstructor<SubroutinesRendererProps<TAdditional>>;
 }
 
 export interface RoutineRendererProps<TRoutineLabel, TEnvironment> {
@@ -52,16 +54,21 @@ export interface RoutineRendererProps<TRoutineLabel, TEnvironment> {
 }
 
 @injectable()
-export class RoutineRenderer<TRoutineLabel, TInput, TEnvironment> {
+export class RoutineRenderer<
+  TRoutineLabel,
+  TInput,
+  TEnvironment,
+  TSubroutineItemAdditional
+> {
   constructor(
     @inject(ROUTINE_RENDERER_TYPES.ExperimentRendererProvider)
     private experimentRendererProvider: ExperimentRendererProvider,
     @inject(ROUTINE_RENDERER_TYPES.ExperimentMenuRenderer)
     private experimentMenuRenderer: ExperimentMenuRenderer,
     @inject(ROUTINE_RENDERER_TYPES.SubroutinesRenderer)
-    private subroutinesRenderer: SubroutinesRenderer,
+    private subroutinesRenderer: SubroutinesRenderer<TSubroutineItemAdditional>,
     @inject(ROUTINE_RENDERER_TYPES.SubroutineItemRenderer)
-    private subroutineItemRenderer: SubroutineItemRenderer,
+    private subroutineItemRenderer: SubroutineItemRenderer<TSubroutineItemAdditional>,
     @inject(ROUTINE_RENDERER_TYPES.ExperimentEnvironmentReducerProvider)
     private experimentEnvironmentReducerProvider: ExperimentEnvironmentReducerProvider<
       TInput,
@@ -138,7 +145,7 @@ export class RoutineRenderer<TRoutineLabel, TInput, TEnvironment> {
           />
         }
         subroutines={childrenLabels.map((label, i) => ({
-          render: () => (
+          render: (additional) => (
             <this.subroutineItemRenderer.render
               key={JSON.stringify(instanceToPlain(label))}
               onRemove={() => {
@@ -159,6 +166,7 @@ export class RoutineRenderer<TRoutineLabel, TInput, TEnvironment> {
                   ),
                 });
               }}
+              additional={additional}
             >
               <this.render
                 experimentLabel={label}
@@ -169,6 +177,23 @@ export class RoutineRenderer<TRoutineLabel, TInput, TEnvironment> {
           ),
           key: JSON.stringify(instanceToPlain(label)),
         }))}
+        onMove={(sourceIndex, destinationIndex) => {
+          const reorder = <T,>(
+            list: T[],
+            startIndex: number,
+            endIndex: number
+          ) => {
+            const result = Array.from(list);
+            const [removed] = result.splice(startIndex, 1);
+            result.splice(endIndex, 0, removed);
+
+            return result;
+          };
+          routineService.update(experimentLabel, {
+            input: experimentInput,
+            subroutines: reorder(childrenLabels, sourceIndex, destinationIndex),
+          });
+        }}
       />
     );
   };

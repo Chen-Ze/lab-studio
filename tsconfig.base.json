@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lab-studio/experiments/container": [
+        "libs/experiments/container/src/index.ts"
+      ],
       "@lab-studio/front/feature/experiment-tab/experiment-default-input-provider": [
         "libs/front/feature/experiment-tab/experiment-default-input-provider/src/index.ts"
       ],

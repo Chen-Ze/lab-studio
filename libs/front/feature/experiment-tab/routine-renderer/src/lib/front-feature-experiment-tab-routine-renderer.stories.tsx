@@ -312,8 +312,10 @@ class EnvironmentReducerFallback
 }
 
 @injectable()
-class SimpleSubroutineItemRenderer implements SubroutineItemRenderer {
-  render(props: SubroutineItemRendererProps) {
+class SimpleSubroutineItemRenderer
+  implements SubroutineItemRenderer<Record<string, never>>
+{
+  render(props: SubroutineItemRendererProps<Record<string, never>>) {
     return (
       <div
         style={{
@@ -328,8 +330,10 @@ class SimpleSubroutineItemRenderer implements SubroutineItemRenderer {
 }
 
 @injectable()
-class SimpleSubroutinesRenderer implements SubroutinesRenderer {
-  render(props: SubroutinesRendererProps) {
+class SimpleSubroutinesRenderer
+  implements SubroutinesRenderer<Record<string, never>>
+{
+  render(props: SubroutinesRendererProps<Record<string, never>>) {
     return (
       <div>
         <div>{props.experiment}</div>
@@ -464,7 +468,12 @@ function SimpleTab() {
 
 function SimpleTabContent() {
   const renderer = useInjection<
-    RoutineRenderer<string, PropsWithDeclaration, Environment>
+    RoutineRenderer<
+      string,
+      PropsWithDeclaration,
+      Environment,
+      Record<string, never>
+    >
   >(ROUTINE_RENDERER_TYPES.RoutineRenderer);
   const [routines, setRoutines] = useState<{
     [key: string]: Routine<unknown, string>;
@@ -496,8 +505,6 @@ function SimpleTabContent() {
           }));
         },
         remove: (label: string) => {
-          // should be recursive, e.g.
-          // routines[label].subroutines.forEach((subroutine) => this.remove(subroutine));
           setRoutines(R.pickBy((_, key) => key !== label));
         },
       }}
