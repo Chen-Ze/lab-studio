@@ -1,7 +1,6 @@
-import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
-import { SubType } from '@lab-studio/shared/util/types';
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
-import { PickByValue, PickByValueExact } from 'utility-types';
+import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
+import { PickByValueExact } from 'utility-types';
 
 export function frontUiExperimentTabInputProps(): string {
   return 'front-ui-experiment-tab-input-props';

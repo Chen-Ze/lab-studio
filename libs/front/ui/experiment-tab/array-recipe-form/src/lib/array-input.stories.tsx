@@ -78,7 +78,7 @@ const Template: Story<{
   experimentMeasurement: ExperimentMeasurement<StepVoltageRecipe>;
   columns: string[];
 }> = (args) => {
-  const [argValues, updateArgs] = useArgs();
+  const [, updateArgs] = useArgs();
   return (
     <StepVoltageRecipeExperiment
       {...args}
