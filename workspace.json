@@ -13,6 +13,8 @@
     "front-feature-experiment-tab-routine-renderer": "libs/front/feature/experiment-tab/routine-renderer",
     "front-feature-experiment-tab-routine-renderer-e2e": "apps/front-feature-experiment-tab-routine-renderer-e2e",
     "front-feature-experiment-tab-slice": "libs/front/feature/experiment-tab/slice",
+    "front-ui-experiment-tab-array-recipe-form": "libs/front/ui/experiment-tab/array-recipe-form",
+    "front-ui-experiment-tab-array-recipe-form-e2e": "apps/front-ui-experiment-tab-array-recipe-form-e2e",
     "front-ui-experiment-tab-boolean-input": "libs/front/ui/experiment-tab/boolean-input",
     "front-ui-experiment-tab-boolean-input-e2e": "apps/front-ui-experiment-tab-boolean-input-e2e",
     "front-ui-experiment-tab-enum-input": "libs/front/ui/experiment-tab/enum-input",

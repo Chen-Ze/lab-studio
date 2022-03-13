@@ -39,6 +39,9 @@
       "@lab-studio/front/feature/experiment-tab/slice": [
         "libs/front/feature/experiment-tab/slice/src/index.ts"
       ],
+      "@lab-studio/front/ui/experiment-tab/array-recipe-form": [
+        "libs/front/ui/experiment-tab/array-recipe-form/src/index.ts"
+      ],
       "@lab-studio/front/ui/experiment-tab/boolean-input": [
         "libs/front/ui/experiment-tab/boolean-input/src/index.ts"
       ],
