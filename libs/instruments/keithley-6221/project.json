@@ -1,0 +1,23 @@
+{
+  "root": "libs/instruments/keithley-6221",
+  "sourceRoot": "libs/instruments/keithley-6221/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/instruments/keithley-6221/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/instruments/keithley-6221"],
+      "options": {
+        "jestConfig": "libs/instruments/keithley-6221/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

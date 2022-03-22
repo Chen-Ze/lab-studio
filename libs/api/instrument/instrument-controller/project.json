@@ -1,0 +1,24 @@
+{
+  "root": "libs/api/instrument/instrument-controller",
+  "sourceRoot": "libs/api/instrument/instrument-controller/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/api/instrument/instrument-controller/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/instrument/instrument-controller"],
+      "options": {
+        "jestConfig": "libs/api/instrument/instrument-controller/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,23 @@
+{
+  "root": "libs/instruments/random-number-generator",
+  "sourceRoot": "libs/instruments/random-number-generator/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/instruments/random-number-generator/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/instruments/random-number-generator"],
+      "options": {
+        "jestConfig": "libs/instruments/random-number-generator/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

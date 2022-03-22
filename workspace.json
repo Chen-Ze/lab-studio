@@ -1,7 +1,13 @@
 {
   "version": 2,
   "projects": {
+    "api": "apps/api",
+    "api-instrument-instrument-controller": "libs/api/instrument/instrument-controller",
     "front": "apps/front",
-    "front-e2e": "apps/front-e2e"
+    "front-e2e": "apps/front-e2e",
+    "instruments-container": "libs/instruments/container",
+    "instruments-keithley-2182": "libs/instruments/keithley-2182",
+    "instruments-keithley-6221": "libs/instruments/keithley-6221",
+    "instruments-random-number-generator": "libs/instruments/random-number-generator"
   }
 }

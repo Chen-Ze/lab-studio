@@ -14,7 +14,23 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@lab-studio/api/instrument/instrument-controller": [
+        "libs/api/instrument/instrument-controller/src/index.ts"
+      ],
+      "@lab-studio/instruments/container": [
+        "libs/instruments/container/src/index.ts"
+      ],
+      "@lab-studio/instruments/keithley-2182": [
+        "libs/instruments/keithley-2182/src/index.ts"
+      ],
+      "@lab-studio/instruments/keithley-6221": [
+        "libs/instruments/keithley-6221/src/index.ts"
+      ],
+      "@lab-studio/instruments/random-number-generator": [
+        "libs/instruments/random-number-generator/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
