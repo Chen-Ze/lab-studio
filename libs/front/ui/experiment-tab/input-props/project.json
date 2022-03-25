@@ -1,0 +1,23 @@
+{
+  "root": "libs/front/ui/experiment-tab/input-props",
+  "sourceRoot": "libs/front/ui/experiment-tab/input-props/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/front/ui/experiment-tab/input-props/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front/ui/experiment-tab/input-props"],
+      "options": {
+        "jestConfig": "libs/front/ui/experiment-tab/input-props/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

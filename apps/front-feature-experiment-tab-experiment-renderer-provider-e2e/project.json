@@ -1,0 +1,32 @@
+{
+  "root": "apps/front-feature-experiment-tab-experiment-renderer-provider-e2e",
+  "sourceRoot": "apps/front-feature-experiment-tab-experiment-renderer-provider-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/front-feature-experiment-tab-experiment-renderer-provider-e2e/cypress.json",
+        "devServerTarget": "front-feature-experiment-tab-experiment-renderer-provider:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "front-feature-experiment-tab-experiment-renderer-provider:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/front-feature-experiment-tab-experiment-renderer-provider-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": [
+    "front-feature-experiment-tab-experiment-renderer-provider"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "root": "libs/front/feature/experiment-tab/experiment-default-input-provider",
+  "sourceRoot": "libs/front/feature/experiment-tab/experiment-default-input-provider/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front/feature/experiment-tab/experiment-default-input-provider/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/front/feature/experiment-tab/experiment-default-input-provider"
+      ],
+      "options": {
+        "jestConfig": "libs/front/feature/experiment-tab/experiment-default-input-provider/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,30 @@
+{
+  "root": "apps/front-ui-experiment-tab-recipe-output-form-e2e",
+  "sourceRoot": "apps/front-ui-experiment-tab-recipe-output-form-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/front-ui-experiment-tab-recipe-output-form-e2e/cypress.json",
+        "devServerTarget": "front-ui-experiment-tab-recipe-output-form:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "front-ui-experiment-tab-recipe-output-form:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/front-ui-experiment-tab-recipe-output-form-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["front-ui-experiment-tab-recipe-output-form"]
+}

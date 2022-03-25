@@ -1,0 +1,23 @@
+{
+  "root": "libs/front/ui/experiment-tab/form-props",
+  "sourceRoot": "libs/front/ui/experiment-tab/form-props/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/front/ui/experiment-tab/form-props/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front/ui/experiment-tab/form-props"],
+      "options": {
+        "jestConfig": "libs/front/ui/experiment-tab/form-props/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

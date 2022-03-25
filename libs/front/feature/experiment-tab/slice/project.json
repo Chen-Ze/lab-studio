@@ -1,0 +1,23 @@
+{
+  "root": "libs/front/feature/experiment-tab/slice",
+  "sourceRoot": "libs/front/feature/experiment-tab/slice/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/front/feature/experiment-tab/slice/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front/feature/experiment-tab/slice"],
+      "options": {
+        "jestConfig": "libs/front/feature/experiment-tab/slice/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
