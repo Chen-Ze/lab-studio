@@ -18,18 +18,6 @@
       "@lab-studio/api/instrument/instrument-controller": [
         "libs/api/instrument/instrument-controller/src/index.ts"
       ],
-      "@lab-studio/instruments/container": [
-        "libs/instruments/container/src/index.ts"
-      ],
-      "@lab-studio/instruments/keithley-2182": [
-        "libs/instruments/keithley-2182/src/index.ts"
-      ],
-      "@lab-studio/instruments/keithley-6221": [
-        "libs/instruments/keithley-6221/src/index.ts"
-      ],
-      "@lab-studio/instruments/random-number-generator": [
-        "libs/instruments/random-number-generator/src/index.ts"
-      ],
       "@lab-studio/experiments/container": [
         "libs/experiments/container/src/index.ts"
       ],
@@ -92,6 +80,18 @@
       ],
       "@lab-studio/front/ui/experiment-tab/sub-recipe-form": [
         "libs/front/ui/experiment-tab/sub-recipe-form/src/index.ts"
+      ],
+      "@lab-studio/instruments/container": [
+        "libs/instruments/container/src/index.ts"
+      ],
+      "@lab-studio/instruments/keithley-2182": [
+        "libs/instruments/keithley-2182/src/index.ts"
+      ],
+      "@lab-studio/instruments/keithley-6221": [
+        "libs/instruments/keithley-6221/src/index.ts"
+      ],
+      "@lab-studio/instruments/random-number-generator": [
+        "libs/instruments/random-number-generator/src/index.ts"
       ],
       "@lab-studio/shared/data/recipe/experiment-scope": [
         "libs/shared/data/recipe/experiment-scope/src/index.ts"
