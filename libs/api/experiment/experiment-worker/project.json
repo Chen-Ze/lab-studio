@@ -1,0 +1,23 @@
+{
+  "root": "libs/api/experiment/experiment-worker",
+  "sourceRoot": "libs/api/experiment/experiment-worker/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/experiment/experiment-worker/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/experiment/experiment-worker"],
+      "options": {
+        "jestConfig": "libs/api/experiment/experiment-worker/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

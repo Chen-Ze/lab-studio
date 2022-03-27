@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-experiment-experiment-worker": "libs/api/experiment/experiment-worker",
     "api-instrument-instrument-controller": "libs/api/instrument/instrument-controller",
     "experiments-container": "libs/experiments/container",
     "experiments-container-e2e": "apps/experiments-container-e2e",

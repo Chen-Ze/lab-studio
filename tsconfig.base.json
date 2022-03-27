@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lab-studio/api/experiment/experiment-worker": [
+        "libs/api/experiment/experiment-worker/src/index.ts"
+      ],
       "@lab-studio/api/instrument/instrument-controller": [
         "libs/api/instrument/instrument-controller/src/index.ts"
       ],
