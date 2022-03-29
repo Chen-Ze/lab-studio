@@ -30,14 +30,17 @@ export function makeExperiment<TRecipe>(
   experimentForm: (props: RecipeFormProps<TRecipe>) => JSX.Element,
   allocator: { new (): TRecipe },
   getRecipeOutput: (recipe: TRecipe) => RecipeOutputDeclarations,
-  getRecipeInfo?: (recipe: TRecipe) => RecipeInfo<TRecipe>
+  getRecipeInfo?: (
+    recipe: TRecipe,
+    environment?: ExperimentScope
+  ) => RecipeInfo<TRecipe>
 ) {
   return (experimentProps: ExperimentProps<TRecipe>) => {
     const recipe = plainToInstance(
       allocator,
       experimentProps.experimentMeasurement.plainifiedRecipe
     );
-    const recipeInfo = getRecipeInfo?.(recipe);
+    const recipeInfo = getRecipeInfo?.(recipe, experimentProps.scope);
     const scope = experimentProps.scope;
     return (
       <div>
