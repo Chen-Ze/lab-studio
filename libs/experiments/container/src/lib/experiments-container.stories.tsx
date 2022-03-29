@@ -451,9 +451,9 @@ class SimpleSubroutinesRenderer implements SubroutinesRenderer<WithDragHandle> {
                           }}
                         >
                           <div key={subroutine.key}>
-                            <subroutine.render
-                              dragHandleProps={provided.dragHandleProps}
-                            />
+                            {subroutine.render({
+                              dragHandleProps: provided.dragHandleProps,
+                            })}
                           </div>
                         </div>
                       )}
@@ -622,7 +622,6 @@ function SimpleTabContent() {
           );
         },
         update: (label, input) => {
-          console.log(routines);
           setRoutines((oldRoutines) => ({
             ...oldRoutines,
             [label]: input as unknown as Routine<

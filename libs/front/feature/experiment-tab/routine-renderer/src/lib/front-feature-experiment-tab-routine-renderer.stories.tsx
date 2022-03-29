@@ -346,9 +346,7 @@ class SimpleSubroutinesRenderer
           }}
         >
           {props.subroutines.map((subroutine) => (
-            <div key={subroutine.key}>
-              <subroutine.render />
-            </div>
+            <div key={subroutine.key}>{subroutine.render({})}</div>
           ))}
         </div>
       </div>
