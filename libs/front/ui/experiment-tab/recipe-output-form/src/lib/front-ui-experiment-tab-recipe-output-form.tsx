@@ -14,6 +14,8 @@ import {
   InputLabel,
   Input,
   OutlinedInput,
+  Autocomplete,
+  Box,
 } from '@mui/material';
 import produce from 'immer';
 
@@ -51,7 +53,7 @@ export { FrontUiExperimentTabRecipeOutputForm as RecipeOutputForm };
 
 interface FrontUiExperimentTabRecipeOutputRowsProps
   extends FrontUiExperimentTabRecipeOutputFormProps {
-  scope: keyof RecipeOutput;
+  scope: 'innerOutputList' | 'outerOutputList';
 }
 
 function RecipeOutputListRows(
@@ -93,34 +95,44 @@ function RecipeOutputListRows(
               />
             </FormControl>
           </TableCell>
-          <TableCell align="center">
-            <FormControl sx={{ width: '15ch' }} size="small">
-              <InputLabel>Column</InputLabel>
-              <Select
-                value={props.output[props.scope][key].write || ''}
-                label="Column"
-                size="small"
-                onChange={(e) => {
-                  props.onChange(
-                    produce(props.output, (draft) => {
-                      draft[props.scope][key].write =
-                        e.target.value || undefined;
-                    })
-                  );
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {props.columns.map((column) => (
-                  <MenuItem key={column} value={column}>
-                    <Typography sx={{ fontFamily: 'monospace' }}>
-                      {column}
-                    </Typography>
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          <TableCell
+            align="center"
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <Autocomplete
+              freeSolo
+              inputValue={props.output[props.scope][key].write || ''}
+              onInputChange={(event, newInputValue) => {
+                props.onChange(
+                  produce(props.output, (draft) => {
+                    draft[props.scope][key].write = newInputValue || undefined;
+                  })
+                );
+              }}
+              options={[...props.columns]}
+              renderOption={(props, option) => (
+                <Box component="li" {...props} sx={{ fontFamily: 'monospace' }}>
+                  {option}
+                </Box>
+              )}
+              sx={{ width: '15ch' }}
+              renderInput={(params) => (
+                <TextField
+                  label="Column"
+                  {...params}
+                  size="small"
+                  inputProps={{
+                    ...params.inputProps,
+                    sx: {
+                      fontFamily: 'monospace',
+                    },
+                  }}
+                />
+              )}
+            />
           </TableCell>
         </TableRow>
       ))}
