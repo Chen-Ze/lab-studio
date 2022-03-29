@@ -29,6 +29,8 @@
     "front-ui-experiment-tab-experiment-routine-e2e": "apps/front-ui-experiment-tab-experiment-routine-e2e",
     "front-ui-experiment-tab-form-props": "libs/front/ui/experiment-tab/form-props",
     "front-ui-experiment-tab-input-props": "libs/front/ui/experiment-tab/input-props",
+    "front-ui-experiment-tab-instrument-input": "libs/front/ui/experiment-tab/instrument-input",
+    "front-ui-experiment-tab-instrument-input-e2e": "apps/front-ui-experiment-tab-instrument-input-e2e",
     "front-ui-experiment-tab-number-input": "libs/front/ui/experiment-tab/number-input",
     "front-ui-experiment-tab-number-input-e2e": "apps/front-ui-experiment-tab-number-input-e2e",
     "front-ui-experiment-tab-recipe-output-form": "libs/front/ui/experiment-tab/recipe-output-form",

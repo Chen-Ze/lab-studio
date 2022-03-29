@@ -22,7 +22,7 @@ export function FrontUiExperimentTabStringInput<
       }
       variant="standard"
       sx={{ m: 1, width: props.width || '25ch' }}
-      label={props.label || titleize(humanizeString(`${props.entry}`))}
+      label={props.label || titleize(humanizeString(String(props.entry)))}
       value={props.parentRecipeFormProps.recipe[props.entry]}
       onChange={(e) => {
         const newRecipe = Object.assign(
@@ -47,7 +47,7 @@ export function FrontUiExperimentTabStringInput<
       }}
       aria-describedby="standard-weight-helper-text"
       inputProps={{
-        'aria-label': props.label || `${props.entry}`,
+        'aria-label': props.label || String(props.entry),
       }}
     />
   );

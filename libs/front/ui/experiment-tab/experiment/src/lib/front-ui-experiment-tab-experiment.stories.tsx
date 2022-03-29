@@ -4,6 +4,11 @@ import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props'
 import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { makeSubRecipeInput } from '@lab-studio/front/ui/experiment-tab/sub-recipe-form';
 import {
+  InstrumentName,
+  ScopeInstruments,
+  ScopeVariables,
+} from '@lab-studio/shared/data/recipe/experiment-scope';
+import {
   ExperimentMeasurement,
   PlainifiedRecipe,
   RecipeInfo,
@@ -17,6 +22,7 @@ import { Meta, Story } from '@storybook/react';
 import { instanceToPlain, Type } from 'class-transformer';
 import * as R from 'ramda';
 import 'reflect-metadata';
+import { InstrumentInput } from '@lab-studio/front/ui/experiment-tab/instrument-input';
 import { makeExperiment } from './front-ui-experiment-tab-experiment';
 
 enum ChannelMode {
@@ -195,6 +201,8 @@ function ChannelRecipeForm(props: RecipeFormProps<ChannelRecipe>) {
 const ChannelRecipeInput = makeSubRecipeInput(ChannelRecipeForm, ChannelRecipe);
 
 class Recipe {
+  instrument: InstrumentName = '';
+
   @Type(() => ChannelRecipe)
   channelARecipe = new ChannelRecipe();
   @Type(() => ChannelRecipe)
@@ -259,15 +267,22 @@ class Recipe {
 
 function RecipeForm(props: RecipeFormProps<Recipe>) {
   return (
-    <div style={{ display: 'flex' }}>
-      <ChannelRecipeInput
+    <div>
+      <InstrumentInput
         parentRecipeFormProps={props}
-        entry="channelARecipe"
+        entry="instrument"
+        model="keithley-2600"
       />
-      <ChannelRecipeInput
-        parentRecipeFormProps={props}
-        entry="channelBRecipe"
-      />
+      <div style={{ display: 'flex' }}>
+        <ChannelRecipeInput
+          parentRecipeFormProps={props}
+          entry="channelARecipe"
+        />
+        <ChannelRecipeInput
+          parentRecipeFormProps={props}
+          entry="channelBRecipe"
+        />
+      </div>
     </div>
   );
 }
@@ -287,6 +302,8 @@ export default {
 const Template: Story<{
   experimentMeasurement: ExperimentMeasurement<Recipe>;
   columns: string[];
+  instruments: ScopeInstruments;
+  variables: ScopeVariables;
 }> = (args) => {
   const [argValues, updateArgs] = useArgs();
   return (
@@ -295,6 +312,12 @@ const Template: Story<{
       onChange={(experimentMeasurement) =>
         updateArgs({ experimentMeasurement })
       }
+      scope={{
+        columns: args.columns,
+        instruments: args.instruments,
+        variables: args.variables,
+        addresses: [],
+      }}
     />
   );
 };
@@ -303,15 +326,22 @@ export const Default = Template.bind({});
 Default.args = {
   experimentMeasurement: {
     plainifiedRecipe: instanceToPlain(new Recipe()) as PlainifiedRecipe<Recipe>,
-    recipeOutput: R.mapObjIndexed(
-      R.pipe(
-        R.filter((type) => type !== RecipeOutputTypes.None),
-        R.mapObjIndexed((type) => ({
-          type,
-        }))
-      ),
-      new Recipe().output()
-    ),
+    recipeOutput: {
+      // should be initialized
+      innerOutputList: {},
+      outerOutputList: {},
+    },
   },
   columns: ['ia', 'va', 'ib', 'vb'],
+  instruments: {
+    Gate: 'keithley-2600',
+    Bias: 'keithley-2600',
+    Cryostat: 'lake-shore-336',
+    Magnet: 'lake-shore-625',
+    Compressor: 'sumitomo-f70',
+  },
+  variables: {
+    i: RecipeOutputTypes.Number,
+    iAll: RecipeOutputTypes.NumberArray,
+  },
 };

@@ -15,6 +15,10 @@ import { Meta, Story } from '@storybook/react';
 import { instanceToPlain, Type } from 'class-transformer';
 import { makeArrayRecipeInput } from './front-ui-experiment-tab-array-recipe-form';
 import * as R from 'ramda';
+import {
+  ScopeInstruments,
+  ScopeVariables,
+} from '@lab-studio/shared/data/recipe/experiment-scope';
 
 class FixedVoltageRecipe {
   value = 0;
@@ -77,6 +81,8 @@ export default {
 const Template: Story<{
   experimentMeasurement: ExperimentMeasurement<StepVoltageRecipe>;
   columns: string[];
+  variables: ScopeVariables;
+  instruments: ScopeInstruments;
 }> = (args) => {
   const [, updateArgs] = useArgs();
   return (
@@ -85,6 +91,10 @@ const Template: Story<{
       onChange={(experimentMeasurement) =>
         updateArgs({ experimentMeasurement })
       }
+      scope={{
+        ...args,
+        addresses: [],
+      }}
     />
   );
 };
@@ -101,4 +111,6 @@ Default.args = {
     },
   },
   columns: ['ia', 'va', 'ib', 'vb'],
+  variables: {},
+  instruments: {},
 };

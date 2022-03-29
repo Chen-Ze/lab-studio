@@ -59,7 +59,7 @@ export function FrontUiExperimentTabNumberInput<
       color={editing ? 'error' : undefined}
       variant="standard"
       sx={{ m: 1, width: props.width || '25ch' }}
-      label={props.label || titleize(humanizeString(`${props.entry}`))}
+      label={props.label || titleize(humanizeString(String(props.entry)))}
       value={value}
       onChange={(e) => {
         setEditing(true);
@@ -80,7 +80,7 @@ export function FrontUiExperimentTabNumberInput<
       }}
       aria-describedby="standard-weight-helper-text"
       inputProps={{
-        'aria-label': props.label || `${props.entry}`,
+        'aria-label': props.label || String(props.entry),
       }}
     />
   );

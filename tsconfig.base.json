@@ -66,6 +66,9 @@
       "@lab-studio/front/ui/experiment-tab/input-props": [
         "libs/front/ui/experiment-tab/input-props/src/index.ts"
       ],
+      "@lab-studio/front/ui/experiment-tab/instrument-input": [
+        "libs/front/ui/experiment-tab/instrument-input/src/index.ts"
+      ],
       "@lab-studio/front/ui/experiment-tab/number-input": [
         "libs/front/ui/experiment-tab/number-input/src/index.ts"
       ],

@@ -12,8 +12,13 @@ export enum RecipeOutputTypes {
 }
 
 export interface RecipeOutput {
+  instrumentList?: RecipeInstrumentList;
   innerOutputList: RecipeOutputList;
   outerOutputList: RecipeOutputList;
+}
+
+export interface RecipeInstrumentList {
+  [name: string]: string;
 }
 
 export interface RecipeOutputList {

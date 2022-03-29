@@ -103,7 +103,7 @@ class RootRenderer
     return (
       <RootExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -168,7 +168,7 @@ class FooRenderer
     return (
       <FooExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -251,7 +251,7 @@ class BarRenderer
     return (
       <BarExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -325,10 +325,20 @@ class EnvironmentReducer
       innerEnvironment: {
         variables: R.mergeAll([newInnerList, oldEnvironment.variables]),
         columns: oldEnvironment.columns,
+        instruments: R.mergeAll([
+          input.recipeOutput.instrumentList || {},
+          oldEnvironment.instruments,
+        ]),
+        addresses: oldEnvironment.addresses,
       },
       outerEnvironment: {
         variables: R.mergeAll([newOuterList, oldEnvironment.variables]),
         columns: oldEnvironment.columns,
+        instruments: R.mergeAll([
+          input.recipeOutput.instrumentList || {},
+          oldEnvironment.instruments,
+        ]),
+        addresses: oldEnvironment.addresses,
       },
     };
   }
@@ -566,6 +576,8 @@ function SimpleTabContent() {
           $Global: RecipeOutputTypes.Number,
         },
         columns: ['ia', 'ib', 'va', 'vb'],
+        instruments: {},
+        addresses: [],
       }}
       experimentLabel="Root"
       routineService={{

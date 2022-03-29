@@ -13,11 +13,12 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import * as R from 'ramda';
 import { RecipeOutputForm } from '@lab-studio/front/ui/experiment-tab/recipe-output-form';
 import styled from 'styled-components';
+import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 
 export interface ExperimentProps<TRecipe> {
   experimentMeasurement: ExperimentMeasurement<TRecipe>;
   onChange: (newRecipe: ExperimentMeasurement<TRecipe>) => void;
-  columns: string[];
+  scope: ExperimentScope;
 }
 
 const DivCentered = styled.div`
@@ -37,6 +38,7 @@ export function makeExperiment<TRecipe>(
       experimentProps.experimentMeasurement.plainifiedRecipe
     );
     const recipeInfo = getRecipeInfo?.(recipe);
+    const scope = experimentProps.scope;
     return (
       <div>
         <DivCentered>
@@ -73,11 +75,12 @@ export function makeExperiment<TRecipe>(
             },
             allocator,
             recipeInfo,
+            scope,
           })}
         </DivCentered>
         <div>
           <RecipeOutputForm
-            columns={experimentProps.columns}
+            columns={experimentProps.scope.columns}
             output={experimentProps.experimentMeasurement.recipeOutput}
             onChange={(newRecipeOutput) => {
               // couldn't use the recipe in the props

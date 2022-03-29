@@ -32,7 +32,7 @@ export function FrontUiExperimentTabBooleanInput<
           }}
         />
       }
-      label={props.label || titleize(humanizeString(`${props.entry}`))}
+      label={props.label || titleize(humanizeString(String(props.entry)))}
     />
   );
 }

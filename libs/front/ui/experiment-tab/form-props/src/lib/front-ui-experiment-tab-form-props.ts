@@ -1,3 +1,4 @@
+import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
 
 export function frontUiExperimentTabFormProps(): string {
@@ -11,4 +12,5 @@ export type RecipeFormProps<TRecipe> = {
   };
   onChange: (newRecipe: TRecipe) => void;
   recipeInfo?: RecipeInfo<TRecipe>;
+  scope: ExperimentScope;
 };

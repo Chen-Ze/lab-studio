@@ -8,7 +8,17 @@ export interface ScopeVariables {
   [key: string]: RecipeOutputTypes;
 }
 
+export type InstrumentName = string;
+
+export type InstrumentModel = string;
+
+export interface ScopeInstruments {
+  [key: InstrumentName]: InstrumentModel;
+}
+
 export interface ExperimentScope {
   variables: ScopeVariables;
   columns: string[];
+  addresses: string[];
+  instruments: ScopeInstruments;
 }

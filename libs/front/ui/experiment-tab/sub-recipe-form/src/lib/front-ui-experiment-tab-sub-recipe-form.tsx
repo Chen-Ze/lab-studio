@@ -39,6 +39,7 @@ function FrontUiExperimentTabSubRecipeForm<
       newRecipe[props.entry] = newSubRecipe;
       props.parentRecipeFormProps.onChange(newRecipe);
     },
+    scope: props.parentRecipeFormProps.scope,
   });
 }
 
