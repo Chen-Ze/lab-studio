@@ -1,5 +1,4 @@
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { SubType } from '@lab-studio/shared/util/types';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';

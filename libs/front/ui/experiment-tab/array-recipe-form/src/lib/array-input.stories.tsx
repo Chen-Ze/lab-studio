@@ -7,7 +7,7 @@ import {
   PlainifiedRecipe,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { useArgs } from '@storybook/client-api';
@@ -47,11 +47,19 @@ class StepVoltageRecipe {
   @Type(() => FixedVoltageRecipe)
   voltages: Array<FixedVoltageRecipe> = [];
 
-  output(): RecipeOutputDeclarations {
+  output(oldOutput?: RecipeOutput): RecipeOutput {
     return {
       innerOutputList: R.zipObj(
         R.range(0, this.voltages.length).map((num) => `Current${num}`),
-        R.repeat(RecipeOutputTypes.Number, this.voltages.length)
+        R.times(
+          (num) => ({
+            type: RecipeOutputTypes.Number,
+            declare:
+              oldOutput?.innerOutputList[`Current${num}`]?.declare || `i${num}`,
+            write: oldOutput?.innerOutputList[`Current${num}`]?.write || 'i',
+          }),
+          this.voltages.length
+        )
       ),
       outerOutputList: {},
     };

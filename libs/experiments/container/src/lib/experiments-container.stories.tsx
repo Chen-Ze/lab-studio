@@ -45,7 +45,7 @@ import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import AcIcon from '@mui/icons-material/AcUnit';
@@ -82,7 +82,11 @@ function RootForm(props: RecipeFormProps<RootRecipe>) {
 }
 
 const RootExperiment = makeExperiment(RootForm, RootRecipe, (recipe) => ({
-  innerOutputList: {},
+  innerOutputList: {
+    $Global: {
+      type: RecipeOutputTypes.Number,
+    },
+  },
   outerOutputList: {},
 }));
 
@@ -128,21 +132,34 @@ class RootRenderer
 
 class FooRecipe {
   value = 0;
+  path = '';
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        Value: RecipeOutputTypes.Number,
+        Value: {
+          type: RecipeOutputTypes.Number,
+          declare: 'v',
+          write: 'v',
+        },
       },
       outerOutputList: {
-        'All values': RecipeOutputTypes.NumberArray,
+        'All values': {
+          type: RecipeOutputTypes.NumberArray,
+          declare: 'V',
+        },
       },
     };
   }
 }
 
 function FooForm(props: RecipeFormProps<FooRecipe>) {
-  return <NumberInput parentRecipeFormProps={props} entry="value" />;
+  return (
+    <div>
+      <NumberInput parentRecipeFormProps={props} entry="value" />
+      <StringInput parentRecipeFormProps={props} entry="path" />
+    </div>
+  );
 }
 
 const FooExperiment = makeExperiment(FooForm, FooRecipe, (recipe) =>
@@ -184,6 +201,7 @@ class FooRenderer
     return {
       plainifiedRecipe: {
         value: 0,
+        path: '',
       },
       recipeOutput: {
         innerOutputList: {
@@ -206,13 +224,19 @@ class BarRecipe {
   step = 1e-5;
   stop = 1e-4;
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        Current: RecipeOutputTypes.Number,
+        Current: {
+          type: RecipeOutputTypes.Number,
+          declare: 'i_',
+        },
       },
       outerOutputList: {
-        'All currents': RecipeOutputTypes.NumberArray,
+        'All currents': {
+          type: RecipeOutputTypes.NumberArray,
+          declare: 'I_',
+        },
       },
     };
   }
@@ -598,6 +622,7 @@ function SimpleTabContent() {
           );
         },
         update: (label, input) => {
+          console.log(routines);
           setRoutines((oldRoutines) => ({
             ...oldRoutines,
             [label]: input as unknown as Routine<

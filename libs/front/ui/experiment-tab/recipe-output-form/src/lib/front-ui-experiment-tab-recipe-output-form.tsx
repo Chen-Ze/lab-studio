@@ -1,21 +1,17 @@
 import { RecipeOutput } from '@lab-studio/shared/data/recipe/recipe-output';
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TextField,
-  MenuItem,
-  Select,
-  Typography,
-  FormControl,
-  InputLabel,
-  Input,
-  OutlinedInput,
   Autocomplete,
   Box,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
 } from '@mui/material';
 import produce from 'immer';
 

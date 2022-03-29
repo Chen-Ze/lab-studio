@@ -14,7 +14,7 @@ import {
   RecipeInfo,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { useArgs } from '@storybook/client-api';
@@ -208,51 +208,79 @@ class Recipe {
   @Type(() => ChannelRecipe)
   channelBRecipe = new ChannelRecipe();
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        'Channel A Current':
-          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel A Voltage':
-          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel B Current':
-          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel B Voltage':
-          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
+        'Channel A Current': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelARecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'ia',
+          write: 'ia',
+        },
+        'Channel A Voltage': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelARecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'va',
+          write: 'va',
+        },
+        'Channel B Current': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelBRecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'ib',
+          write: 'ib',
+        },
+        'Channel B Voltage': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelBRecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'vb',
+          write: 'vb',
+        },
       },
       outerOutputList: {
-        'All Channel A Currents':
-          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel A Voltages':
-          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel B Currents':
-          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel B Voltages':
-          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
+        'All Channel A Currents': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelARecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Ia',
+        },
+        'All Channel A Voltages': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelARecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Va',
+        },
+        'All Channel B Currents': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelBRecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Ib',
+        },
+        'All Channel B Voltages': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelBRecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Vb',
+        },
       },
     };
   }
@@ -326,11 +354,7 @@ export const Default = Template.bind({});
 Default.args = {
   experimentMeasurement: {
     plainifiedRecipe: instanceToPlain(new Recipe()) as PlainifiedRecipe<Recipe>,
-    recipeOutput: {
-      // should be initialized
-      innerOutputList: {},
-      outerOutputList: {},
-    },
+    recipeOutput: new Recipe().output(),
   },
   columns: ['ia', 'va', 'ib', 'vb'],
   instruments: {
