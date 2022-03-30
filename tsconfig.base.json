@@ -15,8 +15,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@lab-studio/experiments/calculator": [
+        "libs/experiments/calculator/src/index.ts"
+      ],
       "@lab-studio/experiments/container": [
         "libs/experiments/container/src/index.ts"
+      ],
+      "@lab-studio/experiments/root": ["libs/experiments/root/src/index.ts"],
+      "@lab-studio/front/feature/experiment-tab/detailed-renderers": [
+        "libs/front/feature/experiment-tab/detailed-renderers/src/index.ts"
       ],
       "@lab-studio/front/feature/experiment-tab/experiment-default-input-provider": [
         "libs/front/feature/experiment-tab/experiment-default-input-provider/src/index.ts"
@@ -38,6 +45,9 @@
       ],
       "@lab-studio/front/feature/experiment-tab/routine-renderer": [
         "libs/front/feature/experiment-tab/routine-renderer/src/index.ts"
+      ],
+      "@lab-studio/front/feature/experiment-tab/scope-environment-reducer": [
+        "libs/front/feature/experiment-tab/scope-environment-reducer/src/index.ts"
       ],
       "@lab-studio/front/feature/experiment-tab/slice": [
         "libs/front/feature/experiment-tab/slice/src/index.ts"

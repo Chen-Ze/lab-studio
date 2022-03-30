@@ -1,10 +1,13 @@
 {
   "version": 2,
   "projects": {
+    "experiments-calculator": "libs/experiments/calculator",
     "experiments-container": "libs/experiments/container",
     "experiments-container-e2e": "apps/experiments-container-e2e",
+    "experiments-root": "libs/experiments/root",
     "front": "apps/front",
     "front-e2e": "apps/front-e2e",
+    "front-feature-experiment-tab-detailed-renderers": "libs/front/feature/experiment-tab/detailed-renderers",
     "front-feature-experiment-tab-experiment-default-input-provider": "libs/front/feature/experiment-tab/experiment-default-input-provider",
     "front-feature-experiment-tab-experiment-environment-reducer": "libs/front/feature/experiment-tab/experiment-environment-reducer",
     "front-feature-experiment-tab-experiment-environment-reducer-provider": "libs/front/feature/experiment-tab/experiment-environment-reducer-provider",
@@ -14,6 +17,7 @@
     "front-feature-experiment-tab-experiment-renderer-provider-e2e": "apps/front-feature-experiment-tab-experiment-renderer-provider-e2e",
     "front-feature-experiment-tab-routine-renderer": "libs/front/feature/experiment-tab/routine-renderer",
     "front-feature-experiment-tab-routine-renderer-e2e": "apps/front-feature-experiment-tab-routine-renderer-e2e",
+    "front-feature-experiment-tab-scope-environment-reducer": "libs/front/feature/experiment-tab/scope-environment-reducer",
     "front-feature-experiment-tab-slice": "libs/front/feature/experiment-tab/slice",
     "front-ui-experiment-tab-array-recipe-form": "libs/front/ui/experiment-tab/array-recipe-form",
     "front-ui-experiment-tab-array-recipe-form-e2e": "apps/front-ui-experiment-tab-array-recipe-form-e2e",

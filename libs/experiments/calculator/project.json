@@ -1,0 +1,23 @@
+{
+  "root": "libs/experiments/calculator",
+  "sourceRoot": "libs/experiments/calculator/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/experiments/calculator/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/experiments/calculator"],
+      "options": {
+        "jestConfig": "libs/experiments/calculator/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

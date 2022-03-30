@@ -52,7 +52,7 @@ import AcIcon from '@mui/icons-material/AcUnit';
 import CalcIcon from '@mui/icons-material/Calculate';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import SwipeVerticalOutlinedIcon from '@mui/icons-material/SwipeVerticalOutlined';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import Box from '@mui/material/Box';
 import MuiContainer from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -66,7 +66,6 @@ import {
   DragDropContext,
   Draggable,
   Droppable,
-  DropResult,
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
 import { StringInput } from '@lab-studio/front/ui/experiment-tab/string-input';
@@ -631,8 +630,7 @@ function SimpleTabContent() {
           }));
         },
         remove: (label: string) => {
-          // should be recursive, e.g.
-          // routines[label].subroutines.forEach((subroutine) => this.remove(subroutine));
+          // already recursive by implementation of routine renderer
           setRoutines(R.pickBy((_, key) => key !== label));
         },
       }}
