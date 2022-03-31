@@ -14,6 +14,7 @@ import { Provider, useInjection } from 'inversify-react';
 import * as R from 'ramda';
 import { useState } from 'react';
 import { container } from './experiments-container';
+import { RootRenderer } from '@lab-studio/experiments/root';
 
 type Environment = ExperimentScope;
 
@@ -46,19 +47,7 @@ function SimpleTabContent() {
     Root: {
       input: {
         _type: 'Root',
-        data: {
-          plainifiedRecipe: {
-            dataPath: '',
-          } as never,
-          recipeOutput: {
-            innerOutputList: {
-              $Global: {
-                type: RecipeOutputTypes.Number,
-              },
-            },
-            outerOutputList: {},
-          },
-        },
+        data: new RootRenderer().defaultInput() as ExperimentMeasurement<unknown>,
       },
       subroutines: [],
     },
