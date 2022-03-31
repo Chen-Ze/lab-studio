@@ -1,0 +1,23 @@
+{
+  "root": "libs/experiments/print",
+  "sourceRoot": "libs/experiments/print/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/experiments/print/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/experiments/print"],
+      "options": {
+        "jestConfig": "libs/experiments/print/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

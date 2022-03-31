@@ -4,6 +4,7 @@
     "experiments-calculator": "libs/experiments/calculator",
     "experiments-container": "libs/experiments/container",
     "experiments-container-e2e": "apps/experiments-container-e2e",
+    "experiments-print": "libs/experiments/print",
     "experiments-root": "libs/experiments/root",
     "experiments-util": "libs/experiments/util",
     "front": "apps/front",
