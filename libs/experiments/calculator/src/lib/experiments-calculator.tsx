@@ -1,42 +1,66 @@
 import { makeExperimentRenderer } from '@lab-studio/experiments/util';
 import { makeExperiment } from '@lab-studio/front/ui/experiment-tab/experiment';
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
-import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { StringInput } from '@lab-studio/front/ui/experiment-tab/string-input';
 import {
   RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { ReactComponent as CalculatorIcon } from '../assets/calculator.svg';
+import * as math from 'mathjs';
+import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
+import { RecipeInfo } from '@lab-studio/shared/data/recipe/recipe';
 
 class CalculatorRecipe {
-  value = 0;
-  path = '';
+  expression = '';
 
   output(): RecipeOutput {
     return {
-      innerOutputList: {
-        Value: {
-          type: RecipeOutputTypes.Number,
-          declare: 'v',
-          write: 'v',
-        },
-      },
+      innerOutputList: {},
       outerOutputList: {
-        'All values': {
-          type: RecipeOutputTypes.NumberArray,
-          declare: 'V',
+        Result: {
+          type: RecipeOutputTypes.Any,
         },
       },
     };
+  }
+
+  info(environment?: ExperimentScope): RecipeInfo<CalculatorRecipe> {
+    try {
+      const symbols = math
+        .parse(this.expression)
+        .filter((node) => node.type === 'SymbolNode')
+        .filter(function (node): node is math.SymbolNode {
+          return true;
+        })
+        .map((node) => node.name);
+      const undefinedSymbols = symbols.filter(
+        (symbol) =>
+          !(symbol in math || symbol in (environment?.variables || {}))
+      );
+      return {
+        expression: {
+          errorMessage: undefinedSymbols.length
+            ? `Undefined variables: ${Array.from(
+                new Set(undefinedSymbols)
+              ).join(', ')}.`
+            : undefined,
+        },
+      };
+    } catch (e) {
+      return {
+        expression: {
+          errorMessage: String(e),
+        },
+      };
+    }
   }
 }
 
 function CalculatorForm(props: RecipeFormProps<CalculatorRecipe>) {
   return (
     <div>
-      <NumberInput parentRecipeFormProps={props} entry="value" />
-      <StringInput parentRecipeFormProps={props} entry="path" />
+      <StringInput parentRecipeFormProps={props} entry="expression" />
     </div>
   );
 }
@@ -44,7 +68,8 @@ function CalculatorForm(props: RecipeFormProps<CalculatorRecipe>) {
 const CalculatorExperiment = makeExperiment(
   CalculatorForm,
   CalculatorRecipe,
-  (recipe) => recipe.output()
+  (recipe) => recipe.output(),
+  (recipe, environment) => recipe.info(environment)
 );
 
 export const CalculatorRenderer = makeExperimentRenderer(
