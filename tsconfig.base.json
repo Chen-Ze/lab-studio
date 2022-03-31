@@ -22,6 +22,7 @@
         "libs/experiments/container/src/index.ts"
       ],
       "@lab-studio/experiments/root": ["libs/experiments/root/src/index.ts"],
+      "@lab-studio/experiments/util": ["libs/experiments/util/src/index.ts"],
       "@lab-studio/front/feature/experiment-tab/detailed-renderers": [
         "libs/front/feature/experiment-tab/detailed-renderers/src/index.ts"
       ],

@@ -5,6 +5,7 @@
     "experiments-container": "libs/experiments/container",
     "experiments-container-e2e": "apps/experiments-container-e2e",
     "experiments-root": "libs/experiments/root",
+    "experiments-util": "libs/experiments/util",
     "front": "apps/front",
     "front-e2e": "apps/front-e2e",
     "front-feature-experiment-tab-detailed-renderers": "libs/front/feature/experiment-tab/detailed-renderers",
