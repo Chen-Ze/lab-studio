@@ -6,7 +6,6 @@ import {
 } from '@lab-studio/front/feature/experiment-tab/routine-renderer';
 import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
-import { RecipeOutputTypes } from '@lab-studio/shared/data/recipe/recipe-output';
 import MuiContainer from '@mui/material/Container';
 import { nanoid } from '@reduxjs/toolkit';
 import { Meta, Story } from '@storybook/react';

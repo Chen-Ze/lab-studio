@@ -7,3 +7,4 @@ bindExperiment(container, CalculatorRenderer);
 bindExperiment(container, PrintRenderer);
 
 export { container };
+export { container as experimentsRendererContainer };
