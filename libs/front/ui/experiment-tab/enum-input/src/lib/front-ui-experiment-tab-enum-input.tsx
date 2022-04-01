@@ -1,5 +1,4 @@
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { SubType } from '@lab-studio/shared/util/types';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';
@@ -23,10 +22,10 @@ export function FrontUiExperimentTabEnumInput<
   return (
     <FormControl variant="standard" sx={{ m: 1, width: props.width || '25ch' }}>
       <InputLabel>
-        {props.label || titleize(humanizeString(`${props.entry}`))}
+        {props.label || titleize(humanizeString(String(props.entry)))}
       </InputLabel>
       <Select
-        label={props.label || titleize(humanizeString(`${props.entry}`))}
+        label={props.label || titleize(humanizeString(String(props.entry)))}
         value={props.parentRecipeFormProps.recipe[props.entry]}
         onChange={(e) => {
           const newRecipe = Object.assign(

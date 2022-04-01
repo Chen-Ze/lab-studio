@@ -1,5 +1,13 @@
 import 'reflect-metadata';
+import {
+  defaultInputForType,
+  ExperimentDefaultInputProvider,
+} from '@lab-studio/front/feature/experiment-tab/experiment-default-input-provider';
 import { ExperimentEnvironmentReducer } from '@lab-studio/front/feature/experiment-tab/experiment-environment-reducer';
+import {
+  ExperimentEnvironmentReducerProvider,
+  EXPERIMENT_ENVIRONMENT_REDUCER_TYPES,
+} from '@lab-studio/front/feature/experiment-tab/experiment-environment-reducer-provider';
 import {
   ExperimentMenuItemRenderer,
   ExperimentMenuItemRendererProps,
@@ -19,14 +27,11 @@ import {
   EXPERIMENT_RENDERER_TYPES,
 } from '@lab-studio/front/feature/experiment-tab/experiment-renderer-provider';
 import { nanoid } from '@reduxjs/toolkit';
+import { Meta, Story } from '@storybook/react';
 import { Container, injectable } from 'inversify';
+import { Provider, useInjection } from 'inversify-react';
 import * as R from 'ramda';
-import {
-  defaultInputForType,
-  ExperimentDefaultInputProvider,
-} from '@lab-studio/front/feature/experiment-tab/experiment-default-input-provider';
-import { EXPERIMENT_ENVIRONMENT_REDUCER_TYPES } from '@lab-studio/front/feature/experiment-tab/experiment-environment-reducer-provider';
-import { ExperimentEnvironmentReducerProvider } from '@lab-studio/front/feature/experiment-tab/experiment-environment-reducer-provider';
+import { useState } from 'react';
 import {
   Routine,
   RoutineRenderer,
@@ -37,9 +42,6 @@ import {
   SubroutinesRendererProps,
 } from './front-feature-experiment-tab-routine-renderer';
 import { ROUTINE_RENDERER_TYPES } from './routine-renderer-types';
-import { Meta, Story } from '@storybook/react';
-import { useEffect, useState } from 'react';
-import { Provider, useInjection } from 'inversify-react';
 
 enum ValueType {
   Number = 'Number',
@@ -344,9 +346,7 @@ class SimpleSubroutinesRenderer
           }}
         >
           {props.subroutines.map((subroutine) => (
-            <div key={subroutine.key}>
-              <subroutine.render />
-            </div>
+            <div key={subroutine.key}>{subroutine.render({})}</div>
           ))}
         </div>
       </div>
@@ -363,8 +363,9 @@ class SimpleMenuRenderer implements ExperimentMenuPanelRenderer {
           border: 'solid thin black',
         }}
       >
-        {props.childrenConstructors.map((ChildConstructor) => (
+        {props.childrenConstructors.map((ChildConstructor, i) => (
           <ChildConstructor
+            key={i}
             onAdd={() => {
               /* Do nothing */
             }}

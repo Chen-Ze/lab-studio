@@ -1,5 +1,4 @@
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { SubType } from '@lab-studio/shared/util/types';
 import { FormControlLabel, Switch } from '@mui/material';
 import humanizeString from 'humanize-string';
 import titleize from 'titleize';
@@ -32,7 +31,7 @@ export function FrontUiExperimentTabBooleanInput<
           }}
         />
       }
-      label={props.label || titleize(humanizeString(`${props.entry}`))}
+      label={props.label || titleize(humanizeString(String(props.entry)))}
     />
   );
 }

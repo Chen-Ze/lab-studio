@@ -7,7 +7,7 @@ import {
   PlainifiedRecipe,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { useArgs } from '@storybook/client-api';
@@ -15,6 +15,10 @@ import { Meta, Story } from '@storybook/react';
 import { instanceToPlain, Type } from 'class-transformer';
 import { makeArrayRecipeInput } from './front-ui-experiment-tab-array-recipe-form';
 import * as R from 'ramda';
+import {
+  ScopeInstruments,
+  ScopeVariables,
+} from '@lab-studio/shared/data/recipe/experiment-scope';
 
 class FixedVoltageRecipe {
   value = 0;
@@ -43,11 +47,19 @@ class StepVoltageRecipe {
   @Type(() => FixedVoltageRecipe)
   voltages: Array<FixedVoltageRecipe> = [];
 
-  output(): RecipeOutputDeclarations {
+  output(oldOutput?: RecipeOutput): RecipeOutput {
     return {
       innerOutputList: R.zipObj(
         R.range(0, this.voltages.length).map((num) => `Current${num}`),
-        R.repeat(RecipeOutputTypes.Number, this.voltages.length)
+        R.times(
+          (num) => ({
+            type: RecipeOutputTypes.Number,
+            declare:
+              oldOutput?.innerOutputList[`Current${num}`]?.declare || `i${num}`,
+            write: oldOutput?.innerOutputList[`Current${num}`]?.write || 'i',
+          }),
+          this.voltages.length
+        )
       ),
       outerOutputList: {},
     };
@@ -77,6 +89,8 @@ export default {
 const Template: Story<{
   experimentMeasurement: ExperimentMeasurement<StepVoltageRecipe>;
   columns: string[];
+  variables: ScopeVariables;
+  instruments: ScopeInstruments;
 }> = (args) => {
   const [, updateArgs] = useArgs();
   return (
@@ -85,6 +99,10 @@ const Template: Story<{
       onChange={(experimentMeasurement) =>
         updateArgs({ experimentMeasurement })
       }
+      scope={{
+        ...args,
+        addresses: [],
+      }}
     />
   );
 };
@@ -101,4 +119,6 @@ Default.args = {
     },
   },
   columns: ['ia', 'va', 'ib', 'vb'],
+  variables: {},
+  instruments: {},
 };

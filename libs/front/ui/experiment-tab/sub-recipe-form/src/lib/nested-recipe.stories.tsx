@@ -103,6 +103,12 @@ const Template: Story = (args) => {
       onChange={(newRecipe) => {
         setRecipe(instanceToPlain(newRecipe));
       }}
+      scope={{
+        columns: [],
+        instruments: {},
+        variables: {},
+        addresses: [],
+      }}
       {...args}
     />
   );

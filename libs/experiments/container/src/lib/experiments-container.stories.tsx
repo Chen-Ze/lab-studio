@@ -45,14 +45,14 @@ import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import AcIcon from '@mui/icons-material/AcUnit';
 import CalcIcon from '@mui/icons-material/Calculate';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import SwipeVerticalOutlinedIcon from '@mui/icons-material/SwipeVerticalOutlined';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import Box from '@mui/material/Box';
 import MuiContainer from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
@@ -66,7 +66,6 @@ import {
   DragDropContext,
   Draggable,
   Droppable,
-  DropResult,
   DraggableProvidedDragHandleProps,
 } from 'react-beautiful-dnd';
 import { StringInput } from '@lab-studio/front/ui/experiment-tab/string-input';
@@ -82,7 +81,11 @@ function RootForm(props: RecipeFormProps<RootRecipe>) {
 }
 
 const RootExperiment = makeExperiment(RootForm, RootRecipe, (recipe) => ({
-  innerOutputList: {},
+  innerOutputList: {
+    $Global: {
+      type: RecipeOutputTypes.Number,
+    },
+  },
   outerOutputList: {},
 }));
 
@@ -103,7 +106,7 @@ class RootRenderer
     return (
       <RootExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -128,21 +131,34 @@ class RootRenderer
 
 class FooRecipe {
   value = 0;
+  path = '';
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        Value: RecipeOutputTypes.Number,
+        Value: {
+          type: RecipeOutputTypes.Number,
+          declare: 'v',
+          write: 'v',
+        },
       },
       outerOutputList: {
-        'All values': RecipeOutputTypes.NumberArray,
+        'All values': {
+          type: RecipeOutputTypes.NumberArray,
+          declare: 'V',
+        },
       },
     };
   }
 }
 
 function FooForm(props: RecipeFormProps<FooRecipe>) {
-  return <NumberInput parentRecipeFormProps={props} entry="value" />;
+  return (
+    <div>
+      <NumberInput parentRecipeFormProps={props} entry="value" />
+      <StringInput parentRecipeFormProps={props} entry="path" />
+    </div>
+  );
 }
 
 const FooExperiment = makeExperiment(FooForm, FooRecipe, (recipe) =>
@@ -168,7 +184,7 @@ class FooRenderer
     return (
       <FooExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -184,6 +200,7 @@ class FooRenderer
     return {
       plainifiedRecipe: {
         value: 0,
+        path: '',
       },
       recipeOutput: {
         innerOutputList: {
@@ -206,13 +223,19 @@ class BarRecipe {
   step = 1e-5;
   stop = 1e-4;
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        Current: RecipeOutputTypes.Number,
+        Current: {
+          type: RecipeOutputTypes.Number,
+          declare: 'i_',
+        },
       },
       outerOutputList: {
-        'All currents': RecipeOutputTypes.NumberArray,
+        'All currents': {
+          type: RecipeOutputTypes.NumberArray,
+          declare: 'I_',
+        },
       },
     };
   }
@@ -251,7 +274,7 @@ class BarRenderer
     return (
       <BarExperiment
         experimentMeasurement={props.inputData}
-        columns={props.environmentData.columns}
+        scope={props.environmentData}
         onChange={props.onChange}
       />
     );
@@ -325,10 +348,20 @@ class EnvironmentReducer
       innerEnvironment: {
         variables: R.mergeAll([newInnerList, oldEnvironment.variables]),
         columns: oldEnvironment.columns,
+        instruments: R.mergeAll([
+          input.recipeOutput.instrumentList || {},
+          oldEnvironment.instruments,
+        ]),
+        addresses: oldEnvironment.addresses,
       },
       outerEnvironment: {
         variables: R.mergeAll([newOuterList, oldEnvironment.variables]),
         columns: oldEnvironment.columns,
+        instruments: R.mergeAll([
+          input.recipeOutput.instrumentList || {},
+          oldEnvironment.instruments,
+        ]),
+        addresses: oldEnvironment.addresses,
       },
     };
   }
@@ -417,9 +450,9 @@ class SimpleSubroutinesRenderer implements SubroutinesRenderer<WithDragHandle> {
                           }}
                         >
                           <div key={subroutine.key}>
-                            <subroutine.render
-                              dragHandleProps={provided.dragHandleProps}
-                            />
+                            {subroutine.render({
+                              dragHandleProps: provided.dragHandleProps,
+                            })}
                           </div>
                         </div>
                       )}
@@ -566,6 +599,8 @@ function SimpleTabContent() {
           $Global: RecipeOutputTypes.Number,
         },
         columns: ['ia', 'ib', 'va', 'vb'],
+        instruments: {},
+        addresses: [],
       }}
       experimentLabel="Root"
       routineService={{
@@ -595,8 +630,7 @@ function SimpleTabContent() {
           }));
         },
         remove: (label: string) => {
-          // should be recursive, e.g.
-          // routines[label].subroutines.forEach((subroutine) => this.remove(subroutine));
+          // already recursive by implementation of routine renderer
           setRoutines(R.pickBy((_, key) => key !== label));
         },
       }}

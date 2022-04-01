@@ -1,4 +1,4 @@
-import { ConvertLeafType } from '@lab-studio/shared/util/types';
+import * as R from 'ramda';
 
 export function sharedDataRecipeRecipeOutput(): string {
   return 'shared-data-recipe-recipe-output';
@@ -12,8 +12,28 @@ export enum RecipeOutputTypes {
 }
 
 export interface RecipeOutput {
+  instrumentList?: RecipeInstrumentList;
   innerOutputList: RecipeOutputList;
   outerOutputList: RecipeOutputList;
+}
+
+export function mergeRecipeOutput(
+  oldOutput: RecipeOutput,
+  newOutputTemplate: RecipeOutput
+): RecipeOutput {
+  const newOutput = R.mapObjIndexed(
+    (list: Record<string, unknown>, listKey: keyof RecipeOutput) =>
+      R.mapObjIndexed(
+        (value: unknown, key: string) => oldOutput[listKey]?.[key] || list[key],
+        list
+      ),
+    newOutputTemplate
+  );
+  return newOutput as RecipeOutput;
+}
+
+export interface RecipeInstrumentList {
+  [name: string]: string;
 }
 
 export interface RecipeOutputList {
@@ -25,9 +45,3 @@ export interface RecipeOutputEntry {
   declare?: string;
   write?: string;
 }
-
-export type RecipeOutputDeclarations = ConvertLeafType<
-  RecipeOutput,
-  RecipeOutputEntry,
-  RecipeOutputTypes
->;

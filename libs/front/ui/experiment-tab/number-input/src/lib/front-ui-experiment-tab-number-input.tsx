@@ -1,5 +1,4 @@
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { SubType } from '@lab-studio/shared/util/types';
 import { InputAdornment, TextField, Typography } from '@mui/material';
 import humanizeString from 'humanize-string';
 import isNumber from 'is-number';
@@ -7,7 +6,7 @@ import { useObservableCallback, useSubscription } from 'observable-hooks';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { debounceTime, filter, pluck } from 'rxjs';
 import titleize from 'titleize';
-import { PickByValue, PickByValueExact } from 'utility-types';
+import { PickByValueExact } from 'utility-types';
 
 type NumberInputProps<
   TRecipe,
@@ -59,7 +58,7 @@ export function FrontUiExperimentTabNumberInput<
       color={editing ? 'error' : undefined}
       variant="standard"
       sx={{ m: 1, width: props.width || '25ch' }}
-      label={props.label || titleize(humanizeString(`${props.entry}`))}
+      label={props.label || titleize(humanizeString(String(props.entry)))}
       value={value}
       onChange={(e) => {
         setEditing(true);
@@ -80,7 +79,7 @@ export function FrontUiExperimentTabNumberInput<
       }}
       aria-describedby="standard-weight-helper-text"
       inputProps={{
-        'aria-label': props.label || `${props.entry}`,
+        'aria-label': props.label || String(props.entry),
       }}
     />
   );

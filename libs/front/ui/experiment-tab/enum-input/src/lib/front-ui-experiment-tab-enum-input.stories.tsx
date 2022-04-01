@@ -26,6 +26,12 @@ const Template: Story = (args) => {
         recipe,
         allocator: ChannelRecipe,
         onChange: setRecipe,
+        scope: {
+          columns: [],
+          instruments: {},
+          variables: {},
+          addresses: [],
+        },
       }}
       enumObject={ChannelMode}
       entry="mode"

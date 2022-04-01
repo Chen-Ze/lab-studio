@@ -10,3 +10,4 @@ container.bind(Keithley2182).to(Keithley2182);
 container.bind(Keithley6221).to(Keithley6221);
 
 export default container;
+export { container as instrumentsContainer };

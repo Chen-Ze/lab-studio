@@ -126,6 +126,7 @@ function FrontUiExperimentTabArrayRecipeForm<
                               ]?.[i]
                             }
                             allocator={props.allocator}
+                            scope={props.parentRecipeFormProps.scope}
                             onChange={(newElementRecipe) => {
                               const newRecipe = Object.assign(
                                 new props.parentRecipeFormProps.allocator(),

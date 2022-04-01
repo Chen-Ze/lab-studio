@@ -4,12 +4,17 @@ import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props'
 import { NumberInput } from '@lab-studio/front/ui/experiment-tab/number-input';
 import { makeSubRecipeInput } from '@lab-studio/front/ui/experiment-tab/sub-recipe-form';
 import {
+  InstrumentName,
+  ScopeInstruments,
+  ScopeVariables,
+} from '@lab-studio/shared/data/recipe/experiment-scope';
+import {
   ExperimentMeasurement,
   PlainifiedRecipe,
   RecipeInfo,
 } from '@lab-studio/shared/data/recipe/recipe';
 import {
-  RecipeOutputDeclarations,
+  RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
 import { useArgs } from '@storybook/client-api';
@@ -17,6 +22,7 @@ import { Meta, Story } from '@storybook/react';
 import { instanceToPlain, Type } from 'class-transformer';
 import * as R from 'ramda';
 import 'reflect-metadata';
+import { InstrumentInput } from '@lab-studio/front/ui/experiment-tab/instrument-input';
 import { makeExperiment } from './front-ui-experiment-tab-experiment';
 
 enum ChannelMode {
@@ -195,56 +201,86 @@ function ChannelRecipeForm(props: RecipeFormProps<ChannelRecipe>) {
 const ChannelRecipeInput = makeSubRecipeInput(ChannelRecipeForm, ChannelRecipe);
 
 class Recipe {
+  instrument: InstrumentName = '';
+
   @Type(() => ChannelRecipe)
   channelARecipe = new ChannelRecipe();
   @Type(() => ChannelRecipe)
   channelBRecipe = new ChannelRecipe();
 
-  output(): RecipeOutputDeclarations {
+  output(): RecipeOutput {
     return {
       innerOutputList: {
-        'Channel A Current':
-          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel A Voltage':
-          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel B Current':
-          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
-        'Channel B Voltage':
-          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.Number
-            : RecipeOutputTypes.None,
+        'Channel A Current': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelARecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'ia',
+          write: 'ia',
+        },
+        'Channel A Voltage': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelARecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'va',
+          write: 'va',
+        },
+        'Channel B Current': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelBRecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'ib',
+          write: 'ib',
+        },
+        'Channel B Voltage': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelBRecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.Number
+              : RecipeOutputTypes.None,
+          declare: 'vb',
+          write: 'vb',
+        },
       },
       outerOutputList: {
-        'All Channel A Currents':
-          this.channelARecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelARecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel A Voltages':
-          this.channelARecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelARecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel B Currents':
-          this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
-          this.channelBRecipe.mode === ChannelMode.SweepVoltage
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
-        'All Channel B Voltages':
-          this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
-          this.channelBRecipe.mode === ChannelMode.SweepCurrent
-            ? RecipeOutputTypes.NumberArray
-            : RecipeOutputTypes.None,
+        'All Channel A Currents': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelARecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Ia',
+        },
+        'All Channel A Voltages': {
+          type:
+            this.channelARecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelARecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Va',
+        },
+        'All Channel B Currents': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedVoltage ||
+            this.channelBRecipe.mode === ChannelMode.SweepVoltage
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Ib',
+        },
+        'All Channel B Voltages': {
+          type:
+            this.channelBRecipe.mode === ChannelMode.FixedCurrent ||
+            this.channelBRecipe.mode === ChannelMode.SweepCurrent
+              ? RecipeOutputTypes.NumberArray
+              : RecipeOutputTypes.None,
+          declare: 'Vb',
+        },
       },
     };
   }
@@ -259,15 +295,22 @@ class Recipe {
 
 function RecipeForm(props: RecipeFormProps<Recipe>) {
   return (
-    <div style={{ display: 'flex' }}>
-      <ChannelRecipeInput
+    <div>
+      <InstrumentInput
         parentRecipeFormProps={props}
-        entry="channelARecipe"
+        entry="instrument"
+        model="keithley-2600"
       />
-      <ChannelRecipeInput
-        parentRecipeFormProps={props}
-        entry="channelBRecipe"
-      />
+      <div style={{ display: 'flex' }}>
+        <ChannelRecipeInput
+          parentRecipeFormProps={props}
+          entry="channelARecipe"
+        />
+        <ChannelRecipeInput
+          parentRecipeFormProps={props}
+          entry="channelBRecipe"
+        />
+      </div>
     </div>
   );
 }
@@ -287,6 +330,8 @@ export default {
 const Template: Story<{
   experimentMeasurement: ExperimentMeasurement<Recipe>;
   columns: string[];
+  instruments: ScopeInstruments;
+  variables: ScopeVariables;
 }> = (args) => {
   const [argValues, updateArgs] = useArgs();
   return (
@@ -295,6 +340,12 @@ const Template: Story<{
       onChange={(experimentMeasurement) =>
         updateArgs({ experimentMeasurement })
       }
+      scope={{
+        columns: args.columns,
+        instruments: args.instruments,
+        variables: args.variables,
+        addresses: [],
+      }}
     />
   );
 };
@@ -303,15 +354,18 @@ export const Default = Template.bind({});
 Default.args = {
   experimentMeasurement: {
     plainifiedRecipe: instanceToPlain(new Recipe()) as PlainifiedRecipe<Recipe>,
-    recipeOutput: R.mapObjIndexed(
-      R.pipe(
-        R.filter((type) => type !== RecipeOutputTypes.None),
-        R.mapObjIndexed((type) => ({
-          type,
-        }))
-      ),
-      new Recipe().output()
-    ),
+    recipeOutput: new Recipe().output(),
   },
   columns: ['ia', 'va', 'ib', 'vb'],
+  instruments: {
+    Gate: 'keithley-2600',
+    Bias: 'keithley-2600',
+    Cryostat: 'lake-shore-336',
+    Magnet: 'lake-shore-625',
+    Compressor: 'sumitomo-f70',
+  },
+  variables: {
+    i: RecipeOutputTypes.Number,
+    iAll: RecipeOutputTypes.NumberArray,
+  },
 };

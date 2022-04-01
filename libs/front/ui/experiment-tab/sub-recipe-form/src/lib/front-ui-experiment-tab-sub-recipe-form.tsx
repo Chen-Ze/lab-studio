@@ -1,6 +1,5 @@
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
 import { InputProps } from '@lab-studio/front/ui/experiment-tab/input-props';
-import { SubType } from '@lab-studio/shared/util/types';
 import { PickByValueExact } from 'utility-types';
 
 interface SubRecipeFormProps<
@@ -39,6 +38,7 @@ function FrontUiExperimentTabSubRecipeForm<
       newRecipe[props.entry] = newSubRecipe;
       props.parentRecipeFormProps.onChange(newRecipe);
     },
+    scope: props.parentRecipeFormProps.scope,
   });
 }
 

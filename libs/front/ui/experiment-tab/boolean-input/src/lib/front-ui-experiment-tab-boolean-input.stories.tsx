@@ -19,6 +19,12 @@ const Template: Story = (args) => {
         recipe,
         allocator: Recipe,
         onChange: setRecipe,
+        scope: {
+          columns: [],
+          instruments: {},
+          variables: {},
+          addresses: [],
+        },
       }}
       entry="someBoolean"
       {...args}
