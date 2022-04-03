@@ -23,10 +23,15 @@ export function mergeRecipeOutput(
 ): RecipeOutput {
   const newOutput = R.mapObjIndexed(
     (list: Record<string, unknown>, listKey: keyof RecipeOutput) =>
-      R.mapObjIndexed(
-        (value: unknown, key: string) => oldOutput[listKey]?.[key] || list[key],
-        list
-      ),
+      R.mapObjIndexed((value: unknown, key: string) => {
+        switch (listKey) {
+          case 'instrumentList':
+            return list[key];
+          case 'innerOutputList':
+          case 'outerOutputList':
+            return oldOutput[listKey]?.[key] || list[key];
+        }
+      }, list),
     newOutputTemplate
   );
   return newOutput as RecipeOutput;

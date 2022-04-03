@@ -31,9 +31,10 @@ export function makeExperimentRenderer<TRecipe>(
   recipeAllocator: { new (): SimpleRecipeBase },
   Experiment: (props: ExperimentProps<TRecipe>) => JSX.Element,
   icon: JSX.Element,
-  iconText: string
+  iconText: string,
+  tag?: string
 ) {
-  const tag = recipeAllocator.name;
+  tag = tag || recipeAllocator.name;
   @injectable()
   @renderType(tag)
   @itemForType(tag)

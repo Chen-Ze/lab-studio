@@ -8,6 +8,7 @@ import humanizeString from 'humanize-string';
 import titleize from 'titleize';
 import { PickByValueExact } from 'utility-types';
 import * as R from 'ramda';
+import { useEffect } from 'react';
 
 interface InstrumentInputProps<
   TRecipe,
@@ -45,7 +46,7 @@ export function FrontUiExperimentTabInstrumentInput<
         </MenuItem>
         {Object.keys(
           R.filter(
-            R.equals(props.model),
+            (instrument) => instrument === props.model,
             props.parentRecipeFormProps.scope.instruments
           )
         ).map((name) => (

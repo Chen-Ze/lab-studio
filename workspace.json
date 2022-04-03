@@ -4,6 +4,7 @@
     "api": "apps/api",
     "api-experiment-experiment-worker": "libs/api/experiment/experiment-worker",
     "api-instrument-instrument-controller": "libs/api/instrument/instrument-controller",
+    "experiments-apply-current-keithley-6221": "libs/experiments/apply-current-keithley-6221",
     "experiments-calculator": "libs/experiments/calculator",
     "experiments-container": "libs/experiments/container",
     "experiments-container-e2e": "apps/experiments-container-e2e",

@@ -25,6 +25,7 @@ interface ArrayRecipeFormProps<
   allocator: {
     new (): TElementRecipe;
   };
+  getRecipeId?: (recipe: TElementRecipe) => string | number;
 }
 
 function FrontUiExperimentTabArrayRecipeForm<
@@ -74,7 +75,13 @@ function FrontUiExperimentTabArrayRecipeForm<
                 ] as unknown as Array<TElementRecipe>
               ).map((elementRecipe, i) => {
                 return (
-                  <Draggable key={i} draggableId={String(i)} index={i}>
+                  <Draggable
+                    key={String(props.getRecipeId?.(elementRecipe) ?? i)}
+                    draggableId={String(
+                      props.getRecipeId?.(elementRecipe) ?? i
+                    )}
+                    index={i}
+                  >
                     {(provided, snapshot) => (
                       <div ref={provided.innerRef} {...provided.draggableProps}>
                         <Divider />
@@ -180,7 +187,8 @@ export function makeArrayRecipeInput<TElementRecipe>(
     TElementRecipe,
     never
   >['subRecipeForm'],
-  allocator: ArrayRecipeFormProps<unknown, TElementRecipe, never>['allocator']
+  allocator: ArrayRecipeFormProps<unknown, TElementRecipe, never>['allocator'],
+  getRecipeId?: (recipe: TElementRecipe) => string | number
 ) {
   return function <
     TRecipe,
@@ -191,6 +199,7 @@ export function makeArrayRecipeInput<TElementRecipe>(
         {...props}
         allocator={allocator}
         subRecipeForm={subRecipeForm}
+        getRecipeId={getRecipeId}
       />
     );
   };

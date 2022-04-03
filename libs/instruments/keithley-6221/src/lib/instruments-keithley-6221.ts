@@ -24,4 +24,3 @@ export class Keithley6221 {
     await this.controller.write(name, `OUTPut ${state}`);
   }
 }
-

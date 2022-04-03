@@ -21,6 +21,9 @@
       "@lab-studio/api/instrument/instrument-controller": [
         "libs/api/instrument/instrument-controller/src/index.ts"
       ],
+      "@lab-studio/experiments/apply-current-keithley-6221": [
+        "libs/experiments/apply-current-keithley-6221/src/index.ts"
+      ],
       "@lab-studio/experiments/calculator": [
         "libs/experiments/calculator/src/index.ts"
       ],

@@ -20,7 +20,14 @@ import {
   RecipeOutput,
   RecipeOutputTypes,
 } from '@lab-studio/shared/data/recipe/recipe-output';
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { instanceToPlain, Type } from 'class-transformer';
 import { injectable } from 'inversify';
 import * as R from 'ramda';
@@ -111,6 +118,9 @@ function RootForm(props: RecipeFormProps<RootRecipe>) {
       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
       <StringInput parentRecipeFormProps={props} entry="dataPath" />
+      <Typography variant="body2" sx={{ textAlign: 'center', marginY: 1 }}>
+        Instruments
+      </Typography>
       <ArrayOpenInstrumentRecipeInput
         parentRecipeFormProps={props}
         entry="instruments"
