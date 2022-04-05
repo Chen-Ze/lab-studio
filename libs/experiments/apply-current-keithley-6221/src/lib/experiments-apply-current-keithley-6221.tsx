@@ -1,10 +1,7 @@
 import { makeExperimentRenderer } from '@lab-studio/experiments/util';
 import { makeExperiment } from '@lab-studio/front/ui/experiment-tab/experiment';
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
-import {
-  RecipeOutput,
-  RecipeOutputTypes,
-} from '@lab-studio/shared/data/recipe/recipe-output';
+import { RecipeOutputTypes } from '@lab-studio/shared/data/recipe/recipe-output';
 import { ReactComponent as CurrentSourceIcon } from '../assets/current-source.svg';
 import {
   ExperimentScope,
@@ -17,8 +14,11 @@ import { makeArrayRecipeInput } from '@lab-studio/front/ui/experiment-tab/array-
 import { Type } from 'class-transformer';
 import { Typography } from '@mui/material';
 import { InstrumentInput } from '@lab-studio/front/ui/experiment-tab/instrument-input';
+import { nanoid } from '@reduxjs/toolkit';
+import { RecipeWithOutput } from '@lab-studio/api/experiment/experiment-worker';
 
 class CurrentPieceRecipe {
+  _id = nanoid();
   start = 0;
   stop = 1e-4;
 
@@ -62,21 +62,28 @@ function CurrentPieceForm(props: RecipeFormProps<CurrentPieceRecipe>) {
 
 const ArrayCurrentPieceInput = makeArrayRecipeInput(
   CurrentPieceForm,
-  CurrentPieceRecipe
+  CurrentPieceRecipe,
+  (recipe) => recipe._id
 );
 
-export class ApplyCurrentKeithley6221Recipe {
+export class ApplyCurrentKeithley6221Recipe implements RecipeWithOutput {
   @Type(() => CurrentPieceRecipe)
   currentPieces: CurrentPieceRecipe[] = [];
 
   instrumentName: InstrumentName = '';
 
-  output(): RecipeOutput {
+  output() {
     return {
-      innerOutputList: {},
+      innerOutputList: {
+        Current: {
+          type: RecipeOutputTypes.Number,
+          declare: 'j',
+        },
+      },
       outerOutputList: {
-        Result: {
-          type: RecipeOutputTypes.Any,
+        'All Currents': {
+          type: RecipeOutputTypes.NumberArray,
+          declare: 'J',
         },
       },
     };

@@ -16,7 +16,7 @@ export class Keithley6221 {
     await this.controller.write(name, 'CLEar');
   }
 
-  async current(name: string, current: string) {
+  async current(name: string, current: number) {
     await this.controller.write(name, `CURRent ${current}`);
   }
 
