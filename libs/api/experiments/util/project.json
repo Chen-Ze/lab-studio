@@ -1,0 +1,23 @@
+{
+  "root": "libs/api/experiments/util",
+  "sourceRoot": "libs/api/experiments/util/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/api/experiments/util/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/api/experiments/util"],
+      "options": {
+        "jestConfig": "libs/api/experiments/util/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -5,10 +5,13 @@ import {
   workerForType,
 } from '@lab-studio/api/experiment/experiment-worker';
 import { ApplyCurrentKeithley6221Recipe } from '@lab-studio/shared/experiments/apply-current-keithley-6221';
-import { linspace, LINSPACE_EPS_SCALE } from './math';
+import {
+  executeType,
+  linspace,
+  LINSPACE_EPS_SCALE,
+} from '@lab-studio/api/experiments/util';
 import { Keithley6221 } from '@lab-studio/instruments/keithley-6221';
 import { inject, injectable } from 'inversify';
-import { plainToClass } from 'class-transformer';
 
 @workerForType(ApplyCurrentKeithley6221Recipe)
 @injectable()
@@ -19,12 +22,15 @@ export class ApplyCurrentKeithley6221Worker
     /* Do nothing */
   }
 
+  @executeType(ApplyCurrentKeithley6221Recipe)
   async execute(
     payload: ExperimentWorkerPayload<ApplyCurrentKeithley6221Recipe>,
     response: ExperimentWorkerResponse
   ): Promise<void> {
-    const { recipe: plainRecipe } = payload;
-    const recipe = plainToClass(ApplyCurrentKeithley6221Recipe, plainRecipe);
+    // TODO: remove
+    // const { recipe: plainRecipe } = payload;
+    // const recipe = plainToClass(ApplyCurrentKeithley6221Recipe, plainRecipe);
+    const { recipe } = payload;
 
     const getCurrentPoints = (
       start: number,

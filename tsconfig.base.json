@@ -27,6 +27,9 @@
       "@lab-studio/api/experiments/root-worker": [
         "libs/api/experiments/root-worker/src/index.ts"
       ],
+      "@lab-studio/api/experiments/util": [
+        "libs/api/experiments/util/src/index.ts"
+      ],
       "@lab-studio/api/instrument/instrument-controller": [
         "libs/api/instrument/instrument-controller/src/index.ts"
       ],
