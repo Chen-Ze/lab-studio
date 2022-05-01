@@ -6,9 +6,11 @@ import { ExperimentWorkerGetter } from './experiment-worker-getter';
 import * as randomWords from 'random-words';
 import { Ochestrator } from './orchestrator/ochestrator';
 import * as R from 'ramda';
-import { Observable, Subject } from 'rxjs';
+import { interval, map, Observable, Subject, switchMap } from 'rxjs';
+import { InstrumentControllerService } from '@lab-studio/api/instrument/instrument-controller';
 
 const MIN_EXPERIMENT_ID_LENGTH = 2;
+const ADDRESSES_POLLING_INTERVAL = 5000;
 
 @Injectable()
 export class ExperimentService {
@@ -18,10 +20,18 @@ export class ExperimentService {
   > = {};
 
   constructor(
-    @Inject(ExperimentWorkerGetter) private workerGetter: ExperimentWorkerGetter
+    @Inject(ExperimentWorkerGetter)
+    private workerGetter: ExperimentWorkerGetter,
+    @Inject(InstrumentControllerService)
+    private instrumentController: InstrumentControllerService
   ) {
     /* Do nothing */
   }
+
+  // TODO: use BahaviorSubject
+  private addressesObservable = interval(ADDRESSES_POLLING_INTERVAL).pipe(
+    switchMap((_) => this.instrumentController.list())
+  );
 
   printAllWorkers(sequence: Sequence) {
     for (const key of Object.keys(sequence)) {
@@ -56,6 +66,10 @@ export class ExperimentService {
       console.log(`line 54: ${JSON.stringify(v)}`)
     );
     return this.ochestratorSubjects[id].asObservable();
+  }
+
+  observableAddresses(): Observable<string[]> {
+    return this.addressesObservable;
   }
 
   getWorker<TRecipe>(recipeType: {

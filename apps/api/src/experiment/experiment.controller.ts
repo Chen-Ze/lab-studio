@@ -35,4 +35,13 @@ export class ExperimentController {
     messageEventObservable.subscribe((v) => console.log(`line 26: ${v}`, v));
     return messageEventObservable;
   }
+
+  @Sse('listen-addresses')
+  listenAddresses(): Observable<MessageEvent<string[]>> {
+    // TODO: remove
+    console.log('listen-addresses');
+    return this.experimentService
+      .observableAddresses()
+      .pipe(map((addresses) => ({ data: addresses } as MessageEvent)));
+  }
 }

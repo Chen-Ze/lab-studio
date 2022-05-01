@@ -25,7 +25,7 @@ import {
   GridColDef,
   GridToolbar,
 } from '@mui/x-data-grid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { row } from 'mathjs';
 
 export function ExperimentTab() {
@@ -43,6 +43,17 @@ export function ExperimentTab() {
   const [rows, setRows] = useState<GridRowsProp>([]);
 
   const [columns, setColumns] = useState<GridColDef[]>([]);
+
+  const [addresses, setAddresses] = useState<string[]>([]);
+
+  useEffect(() => {
+    const addressesEventSource = new EventSource(
+      '/api/experiment/listen-addresses'
+    );
+    addressesEventSource.onmessage = (ev) => {
+      setAddresses(JSON.parse(ev.data));
+    };
+  }, []);
 
   return (
     <Container>
@@ -107,7 +118,7 @@ export function ExperimentTab() {
           variables: {},
           columns: ['ia', 'ib', 'va', 'vb'],
           instruments: {},
-          addresses: [],
+          addresses,
         }}
         experimentLabel="Root"
         routineService={{
