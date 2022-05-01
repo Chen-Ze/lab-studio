@@ -1,0 +1,25 @@
+{
+  "root": "libs/front/experiments/print-renderer",
+  "sourceRoot": "libs/front/experiments/print-renderer/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front/experiments/print-renderer/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front/experiments/print-renderer"],
+      "options": {
+        "jestConfig": "libs/front/experiments/print-renderer/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

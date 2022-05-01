@@ -92,3 +92,12 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 ## Icons
 
 Free SVG icons may be found at [SVG Repo](https://www.svgrepo.com/).
+
+## OpenAPI Generator
+
+```
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
+    -i local/api.json \
+    -g typescript-axios \
+    -o /local/out/
+```

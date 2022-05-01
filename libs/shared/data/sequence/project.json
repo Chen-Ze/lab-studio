@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/data/sequence",
+  "sourceRoot": "libs/shared/data/sequence/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/data/sequence/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/data/sequence"],
+      "options": {
+        "jestConfig": "libs/shared/data/sequence/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -38,6 +38,26 @@ export interface ExperimentWorker<TRecipe> {
 
 export function workerForType(type: { new (): unknown }): ClassDecorator {
   return (target) => {
-    Reflect.defineMetadata('defaultInputForType', type.name, target.prototype);
+    Reflect.defineMetadata('workerForType', type.name, target.prototype);
   };
+}
+
+export function workerForTypeName(typeName: string): ClassDecorator {
+  return (target) => {
+    Reflect.defineMetadata('workerForType', typeName, target.prototype);
+  };
+}
+
+export function shouldWorkExperimentByName(
+  typeName: string,
+  worker: ExperimentWorker<unknown>
+) {
+  return Reflect.getMetadata('workerForType', worker) === typeName;
+}
+
+export function shouldWorkExperiment(
+  type: { new (): unknown },
+  worker: ExperimentWorker<unknown>
+) {
+  return Reflect.getMetadata('workerForType', worker) === type.name;
 }

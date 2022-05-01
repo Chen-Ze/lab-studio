@@ -14,7 +14,7 @@ import {
   EXPERIMENTS_FEATURE_KEY,
   experimentsReducer,
 } from './app/experiments.slice';
-import { experimentsRendererContainer } from '@lab-studio/experiments/container';
+import { experimentRendererContainer } from '@lab-studio/front/experiments/container';
 
 const store = configureStore({
   reducer: { [EXPERIMENTS_FEATURE_KEY]: experimentsReducer },
@@ -27,7 +27,7 @@ const store = configureStore({
 
 ReactDOM.render(
   <Provider store={store}>
-    <InversifyProvider container={() => experimentsRendererContainer}>
+    <InversifyProvider container={() => experimentRendererContainer}>
       <StrictMode>
         <BrowserRouter>
           <App />

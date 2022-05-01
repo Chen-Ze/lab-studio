@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/experiments/print-recipe",
+  "sourceRoot": "libs/shared/experiments/print-recipe/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/experiments/print-recipe/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/experiments/print-recipe"],
+      "options": {
+        "jestConfig": "libs/shared/experiments/print-recipe/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

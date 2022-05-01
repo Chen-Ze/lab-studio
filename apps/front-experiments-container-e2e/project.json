@@ -1,0 +1,30 @@
+{
+  "root": "apps/front-experiments-container-e2e",
+  "sourceRoot": "apps/front-experiments-container-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/front-experiments-container-e2e/cypress.json",
+        "devServerTarget": "front-experiments-container:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "front-experiments-container:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/front-experiments-container-e2e/**/*.{js,ts}"
+        ]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["front-experiments-container"]
+}

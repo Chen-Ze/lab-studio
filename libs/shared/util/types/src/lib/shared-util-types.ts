@@ -43,3 +43,7 @@ export function encodeType<T>(_type: string, data: T): Typed<T> {
 export function decodeType<T>(dataTyped: Typed<T>): T {
   return dataTyped.data;
 }
+
+export function getTypeName(dataTyped: Typed<unknown>) {
+  return dataTyped._type;
+}

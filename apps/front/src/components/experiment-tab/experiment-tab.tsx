@@ -5,6 +5,7 @@ import {
 } from '@lab-studio/front/feature/experiment-tab/routine-renderer';
 import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
+import { Box, IconButton } from '@mui/material';
 import Container from '@mui/material/Container';
 import { nanoid } from '@reduxjs/toolkit';
 import { useInjection } from 'inversify-react';
@@ -15,6 +16,17 @@ import {
   selectExperimentEntities,
   updateExperiment,
 } from '../../app/experiments.slice';
+import axios from 'axios';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
+import {
+  DataGrid,
+  GridRowsProp,
+  GridColDef,
+  GridToolbar,
+} from '@mui/x-data-grid';
+import { useState } from 'react';
+import { row } from 'mathjs';
 
 export function ExperimentTab() {
   const renderer = useInjection<
@@ -28,8 +40,68 @@ export function ExperimentTab() {
   const dispatch = useDispatch();
   const experimentEntities = useSelector(selectExperimentEntities);
 
+  const [rows, setRows] = useState<GridRowsProp>([]);
+
+  const [columns, setColumns] = useState<GridColDef[]>([]);
+
   return (
     <Container>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <IconButton
+          color="success"
+          onClick={(e) => {
+            axios
+              .post('/api/experiment/start-experiment', experimentEntities)
+              .then((data) => {
+                console.log(data.data);
+                const id = data.data;
+                const eventSource = new EventSource(
+                  `/api/experiment/listen-experiment/${id}`
+                );
+                eventSource.onmessage = (ev) => {
+                  console.log(ev.data);
+                  const dataArray: Array<Record<string, number>> = JSON.parse(
+                    ev.data
+                  );
+                  setColumns((columns) => {
+                    const dataColumns = [
+                      ...new Set(
+                        dataArray
+                          .map((row) => Object.keys(row))
+                          .flat()
+                          .filter(
+                            (value) =>
+                              !columns.find((column) => column.field === value)
+                          )
+                      ),
+                    ];
+                    return [
+                      ...columns,
+                      ...dataColumns.map((value) => ({
+                        field: value,
+                        headerName: value,
+                        width: 150,
+                      })),
+                    ];
+                  });
+                  setRows((rows) => {
+                    return [
+                      ...rows,
+                      ...dataArray.map((row) => ({ ...row, id: nanoid() })),
+                    ];
+                  });
+                };
+              });
+          }}
+        >
+          <PlayArrowIcon fontSize="large" />
+        </IconButton>
+      </Box>
       <renderer.render
         parentEnvironment={{
           variables: {},
@@ -78,6 +150,13 @@ export function ExperimentTab() {
           },
         }}
       />
+      <div style={{ height: 600, marginTop: '50px', width: '100%' }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          components={{ Toolbar: GridToolbar }}
+        />
+      </div>
     </Container>
   );
 }

@@ -3,6 +3,9 @@
   "projects": {
     "api": "apps/api",
     "api-experiment-experiment-worker": "libs/api/experiment/experiment-worker",
+    "api-experiments-apply-current-keithley-6221-worker": "libs/api/experiments/apply-current-keithley-6221-worker",
+    "api-experiments-container": "libs/api/experiments/container",
+    "api-experiments-root-worker": "libs/api/experiments/root-worker",
     "api-instrument-instrument-controller": "libs/api/instrument/instrument-controller",
     "experiments-apply-current-keithley-6221": "libs/experiments/apply-current-keithley-6221",
     "experiments-calculator": "libs/experiments/calculator",
@@ -13,6 +16,12 @@
     "experiments-util": "libs/experiments/util",
     "front": "apps/front",
     "front-e2e": "apps/front-e2e",
+    "front-experiments-apply-current-keithley-6221-renderer": "libs/front/experiments/apply-current-keithley-6221-renderer",
+    "front-experiments-calculator-renderer": "libs/front/experiments/calculator-renderer",
+    "front-experiments-container": "libs/front/experiments/container",
+    "front-experiments-container-e2e": "apps/front-experiments-container-e2e",
+    "front-experiments-print-renderer": "libs/front/experiments/print-renderer",
+    "front-experiments-root-renderer": "libs/front/experiments/root-renderer",
     "front-feature-experiment-tab-detailed-renderers": "libs/front/feature/experiment-tab/detailed-renderers",
     "front-feature-experiment-tab-experiment-default-input-provider": "libs/front/feature/experiment-tab/experiment-default-input-provider",
     "front-feature-experiment-tab-experiment-environment-reducer": "libs/front/feature/experiment-tab/experiment-environment-reducer",
@@ -53,9 +62,15 @@
     "instruments-keithley-2182": "libs/instruments/keithley-2182",
     "instruments-keithley-6221": "libs/instruments/keithley-6221",
     "instruments-random-number-generator": "libs/instruments/random-number-generator",
+    "instruments-root": "libs/instruments/root",
     "shared-data-recipe-experiment-scope": "libs/shared/data/recipe/experiment-scope",
     "shared-data-recipe-recipe": "libs/shared/data/recipe/recipe",
     "shared-data-recipe-recipe-output": "libs/shared/data/recipe/recipe-output",
+    "shared-data-sequence": "libs/shared/data/sequence",
+    "shared-experiments-apply-current-keithley-6221": "libs/shared/experiments/apply-current-keithley-6221",
+    "shared-experiments-calculator-recipe": "libs/shared/experiments/calculator-recipe",
+    "shared-experiments-print-recipe": "libs/shared/experiments/print-recipe",
+    "shared-experiments-root-recipe": "libs/shared/experiments/root-recipe",
     "shared-util-types": "libs/shared/util/types"
   }
 }

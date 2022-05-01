@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/experiments/root-recipe",
+  "sourceRoot": "libs/shared/experiments/root-recipe/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/experiments/root-recipe/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/experiments/root-recipe"],
+      "options": {
+        "jestConfig": "libs/shared/experiments/root-recipe/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -4,7 +4,7 @@ import {
   ExperimentWorkerResponse,
   workerForType,
 } from '@lab-studio/api/experiment/experiment-worker';
-import { ApplyCurrentKeithley6221Recipe } from './experiments-apply-current-keithley-6221';
+import { ApplyCurrentKeithley6221Recipe } from './recipe';
 import { linspace, LINSPACE_EPS_SCALE } from '@lab-studio/experiments/util';
 import { Keithley6221 } from '@lab-studio/instruments/keithley-6221';
 import { inject } from 'inversify';

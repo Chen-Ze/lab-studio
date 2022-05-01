@@ -87,7 +87,7 @@ const ArrayOpenInstrumentRecipeInput = makeArrayRecipeInput(
   OpenInstrumentRecipe
 );
 
-class RootRecipe {
+export class RootRecipe {
   dataPath = '';
 
   @Type(() => OpenInstrumentRecipe)

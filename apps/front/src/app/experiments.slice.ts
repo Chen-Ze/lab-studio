@@ -1,4 +1,4 @@
-import { RootRenderer } from '@lab-studio/experiments/root';
+import { RootRenderer } from '@lab-studio/front/experiments/root-renderer';
 import { Routine } from '@lab-studio/front/feature/experiment-tab/routine-renderer';
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
 import {

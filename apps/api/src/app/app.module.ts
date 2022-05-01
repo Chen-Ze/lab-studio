@@ -1,11 +1,11 @@
 import { Module, Injectable } from '@nestjs/common';
 import { injectable } from 'inversify';
+import { ExperimentModule } from '../experiment/experiment.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import container from './container';
 import { Fool } from './injectables';
-
 
 @Injectable()
 @injectable()
@@ -16,6 +16,7 @@ class MyFool implements Fool {
 }
 
 @Module({
+  imports: [ExperimentModule],
   controllers: [AppController],
   providers: [
     AppService,

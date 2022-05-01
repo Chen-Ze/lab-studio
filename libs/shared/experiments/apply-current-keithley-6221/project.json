@@ -1,0 +1,27 @@
+{
+  "root": "libs/shared/experiments/apply-current-keithley-6221",
+  "sourceRoot": "libs/shared/experiments/apply-current-keithley-6221/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/experiments/apply-current-keithley-6221/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/shared/experiments/apply-current-keithley-6221"
+      ],
+      "options": {
+        "jestConfig": "libs/shared/experiments/apply-current-keithley-6221/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

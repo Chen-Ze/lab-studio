@@ -1,0 +1,23 @@
+{
+  "root": "libs/instruments/root",
+  "sourceRoot": "libs/instruments/root/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/instruments/root/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/instruments/root"],
+      "options": {
+        "jestConfig": "libs/instruments/root/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

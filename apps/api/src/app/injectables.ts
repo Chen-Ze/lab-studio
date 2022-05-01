@@ -42,6 +42,6 @@ export class FooGetter {
   }
 
   get() {
-    return this.fooList.map(foo => foo.say());
+    return this.fooList.map((foo) => foo.say());
   }
 }

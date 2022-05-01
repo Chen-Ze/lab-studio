@@ -1,0 +1,25 @@
+{
+  "root": "libs/front/experiments/calculator-renderer",
+  "sourceRoot": "libs/front/experiments/calculator-renderer/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/front/experiments/calculator-renderer/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/front/experiments/calculator-renderer"],
+      "options": {
+        "jestConfig": "libs/front/experiments/calculator-renderer/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
