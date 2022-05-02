@@ -11,6 +11,7 @@ import {
   CurrentPieceRecipe,
   ApplyCurrentKeithley6221Recipe,
 } from '@lab-studio/shared/experiments/apply-current-keithley-6221';
+import { Keithley6221 } from '@lab-studio/instruments/keithley-6221';
 
 const CurrentRecipeFormDiv = styled.div`
   display: flex;
@@ -56,7 +57,7 @@ function ApplyCurrentKeithley6221Form(
         <InstrumentInput
           parentRecipeFormProps={props}
           entry="instrumentName"
-          model="Keithley 6221"
+          model={Keithley6221}
         />
       </div>
       <ArrayCurrentPieceInput

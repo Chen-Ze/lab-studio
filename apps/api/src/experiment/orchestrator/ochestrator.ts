@@ -5,7 +5,7 @@ import {
 import { ExperimentMeasurement } from '@lab-studio/shared/data/recipe/recipe';
 import { RecipeOutputList } from '@lab-studio/shared/data/recipe/recipe-output';
 import { Routine } from '@lab-studio/shared/data/sequence';
-import { decodeType, getTypeName } from '@lab-studio/shared/util/types';
+import { decodeType } from '@lab-studio/shared/util/types';
 import * as R from 'ramda';
 
 type RoutineWorkerGetter = (
@@ -62,7 +62,8 @@ export class Ochestrator {
         writeValues
       );
       const rowCount = Math.max(
-        ...R.values(R.mapObjIndexed((value) => value.length, writeArrayValues))
+        ...R.values(R.mapObjIndexed((value) => value.length, writeArrayValues)),
+        0 // in case there is no entry
       );
       const writeArrayExtended: Record<string, number>[] = R.times((index) => {
         return R.reject(
@@ -73,8 +74,6 @@ export class Ochestrator {
           )
         );
       }, rowCount);
-      // TODO: remove
-      console.log(writeArrayExtended);
       this.onData(writeArrayExtended);
     };
 
@@ -88,8 +87,6 @@ export class Ochestrator {
           for (const key of routine.subroutines) {
             await this.start(key);
           }
-          // TODO: remove
-          console.log('Handover done!');
         },
         outputPrivate: (_recipe, list) =>
           write(list, recipeOutput.innerOutputList),

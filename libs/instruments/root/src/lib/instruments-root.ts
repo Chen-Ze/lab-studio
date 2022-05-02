@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import {
   InstrumentController,
   TYPES,
-} from '@lab-studio/api/instrument/instrument-controller';
+} from '@lab-studio/api/instrument/controller';
 
 @injectable()
 export class RootInstrument {

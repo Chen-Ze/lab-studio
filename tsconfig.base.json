@@ -30,6 +30,9 @@
       "@lab-studio/api/experiments/util": [
         "libs/api/experiments/util/src/index.ts"
       ],
+      "@lab-studio/api/instrument/controller": [
+        "libs/api/instrument/controller/src/index.ts"
+      ],
       "@lab-studio/api/instrument/instrument-controller": [
         "libs/api/instrument/instrument-controller/src/index.ts"
       ],

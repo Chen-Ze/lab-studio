@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { injectable } from 'inversify';
-import { InstrumentController } from './instrument-controller';
+import { InstrumentController } from '@lab-studio/api/instrument/controller';
 
 @Injectable()
 @injectable()

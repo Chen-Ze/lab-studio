@@ -1,7 +1,5 @@
-import {
-  InstrumentControllerService,
-  InstrumentControllerTypes,
-} from '@lab-studio/api/instrument/instrument-controller';
+import { InstrumentControllerService } from '@lab-studio/api/instrument/instrument-controller';
+import { InstrumentControllerTypes } from '@lab-studio/api/instrument/controller';
 import { experimentWorkerContainer } from '@lab-studio/api/experiments/container';
 import { instrumentsContainer } from '@lab-studio/instruments/container';
 import { Module } from '@nestjs/common';

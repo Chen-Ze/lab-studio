@@ -6,7 +6,7 @@ import { ExperimentWorkerGetter } from './experiment-worker-getter';
 import * as randomWords from 'random-words';
 import { Ochestrator } from './orchestrator/ochestrator';
 import * as R from 'ramda';
-import { interval, map, Observable, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { InstrumentControllerService } from '@lab-studio/api/instrument/instrument-controller';
 
 const MIN_EXPERIMENT_ID_LENGTH = 2;
@@ -19,6 +19,8 @@ export class ExperimentService {
     Subject<Record<string, number>[]>
   > = {};
 
+  private addressesObservable = new BehaviorSubject<string[]>([]);
+
   constructor(
     @Inject(ExperimentWorkerGetter)
     private workerGetter: ExperimentWorkerGetter,
@@ -26,12 +28,12 @@ export class ExperimentService {
     private instrumentController: InstrumentControllerService
   ) {
     /* Do nothing */
+    const pollAddresses = async () => {
+      this.addressesObservable.next(await this.instrumentController.list());
+      setTimeout(pollAddresses, ADDRESSES_POLLING_INTERVAL);
+    };
+    pollAddresses();
   }
-
-  // TODO: use BahaviorSubject
-  private addressesObservable = interval(ADDRESSES_POLLING_INTERVAL).pipe(
-    switchMap((_) => this.instrumentController.list())
-  );
 
   printAllWorkers(sequence: Sequence) {
     for (const key of Object.keys(sequence)) {
@@ -45,7 +47,9 @@ export class ExperimentService {
       MIN_EXPERIMENT_ID_LENGTH,
       Object.keys(this.ochestratorSubjects)
     );
-    this.ochestratorSubjects[id] = new Subject<Record<string, number>[]>();
+    this.ochestratorSubjects[id] = new ReplaySubject<
+      Record<string, number>[]
+    >();
     const ochestrator = new Ochestrator(
       (routine) => {
         return this.getWorkerByName(getTypeName(routine.input));
@@ -61,10 +65,6 @@ export class ExperimentService {
   }
 
   observableById(id: string): Observable<Record<string, number>[]> {
-    // TODO: remove
-    this.ochestratorSubjects[id].subscribe((v) =>
-      console.log(`line 54: ${JSON.stringify(v)}`)
-    );
     return this.ochestratorSubjects[id].asObservable();
   }
 

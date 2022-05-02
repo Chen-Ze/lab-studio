@@ -9,12 +9,14 @@ import titleize from 'titleize';
 import { PickByValueExact } from 'utility-types';
 import * as R from 'ramda';
 import { useEffect } from 'react';
+import { InstrumentController } from '@lab-studio/api/instrument/controller';
+import { instrumentClassToTag } from '@lab-studio/instruments/container';
 
 interface InstrumentInputProps<
   TRecipe,
   TEntry extends keyof PickByValueExact<TRecipe, InstrumentName>
 > extends InputProps<InstrumentName, TRecipe, TEntry> {
-  model: InstrumentModel;
+  model: InstrumentModel | { new (controller: InstrumentController): unknown };
 }
 
 export function FrontUiExperimentTabInstrumentInput<
@@ -46,7 +48,10 @@ export function FrontUiExperimentTabInstrumentInput<
         </MenuItem>
         {Object.keys(
           R.filter(
-            (instrument) => instrument === props.model,
+            (instrument) =>
+              typeof props.model === 'string'
+                ? instrument === props.model
+                : instrument === instrumentClassToTag(props.model),
             props.parentRecipeFormProps.scope.instruments
           )
         ).map((name) => (

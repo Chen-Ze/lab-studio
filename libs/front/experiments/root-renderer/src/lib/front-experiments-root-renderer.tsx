@@ -11,6 +11,7 @@ import { makeArrayRecipeInput } from '@lab-studio/front/ui/experiment-tab/array-
 import { makeExperiment } from '@lab-studio/front/ui/experiment-tab/experiment';
 import { RecipeFormProps } from '@lab-studio/front/ui/experiment-tab/form-props';
 import { StringInput } from '@lab-studio/front/ui/experiment-tab/string-input';
+import { getAllInstrumentTags } from '@lab-studio/instruments/container';
 import { ExperimentScope } from '@lab-studio/shared/data/recipe/experiment-scope';
 import {
   ExperimentMeasurement,
@@ -44,7 +45,7 @@ function OpenInstrumentRecipeForm(
       }}
     >
       <StringInput parentRecipeFormProps={props} entry="name" />
-      <FormControl sx={{ width: '15ch' }}>
+      <FormControl sx={{ width: '25ch' }}>
         <InputLabel>Address</InputLabel>
         <Select
           variant="standard"
@@ -70,7 +71,32 @@ function OpenInstrumentRecipeForm(
           ))}
         </Select>
       </FormControl>
-      <StringInput parentRecipeFormProps={props} entry="model" />
+      <FormControl sx={{ width: '25ch' }}>
+        <InputLabel>Model</InputLabel>
+        <Select
+          variant="standard"
+          value={props.recipe.model}
+          label="Model"
+          onChange={(e) => {
+            props.onChange({
+              ...props.recipe,
+              model: e.target.value,
+            });
+          }}
+          sx={{
+            fontFamily: 'monospace',
+          }}
+        >
+          <MenuItem value={''}>
+            <em>None</em>
+          </MenuItem>
+          {getAllInstrumentTags().map((name) => (
+            <MenuItem sx={{ fontFamily: 'monospace' }} key={name} value={name}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </Box>
   );
 }
