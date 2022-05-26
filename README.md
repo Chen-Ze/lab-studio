@@ -101,3 +101,54 @@ docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -g typescript-axios \
     -o /local/out/
 ```
+
+## Adding an Instrument
+
+1. Run the following command to generate an instrument controller.
+
+```
+nx g @nrwl/workspace:lib keithley-2182 --directory=instruments
+```
+
+2. Implement the controller.
+3. Add the controller into `libs/instruments/container/src/lib/instruments-container.ts` by inserting the following.
+
+```typescript
+container.bind(Keithley2182).to(Keithley2182);
+registeredInstruments['Keithley 2182'] = Keithley2182;
+```
+
+## Adding an Experiment
+
+### Adding a Renderer
+
+1. Run the following command to generate the lib of the renderer.
+
+```
+nx g @nrwl/react:lib apply-current-keithley-6221-renderer --directory=front/experiments
+
+```
+
+2. Implement the renderer.
+3. Add the renderer into `libs/front/container/src/lib/experiment-renderer-container.ts` by inserting the following.
+
+```typescript
+bindExperiment(container, ApplyCurrentKeithley6221Renderer);
+```
+
+### Adding a Worker
+
+1. Run the following command to generate the lib of the worker.
+
+```
+nx g @nrwl/workspace:lib apply-current-keithley-6221-worker --directory=api/experiments
+```
+
+2. Implement the worker.
+3. Add the worker into `libs/api/experiments/container/src/lib/experiment-worker-container.ts` by inserting the following.
+
+```typescript
+container
+  .bind(ExperimentWorkerTypes.ExperimentWorkers)
+  .to(ApplyCurrentKeithley6221Worker);
+```
