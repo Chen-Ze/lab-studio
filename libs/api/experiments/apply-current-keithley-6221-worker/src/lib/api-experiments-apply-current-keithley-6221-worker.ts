@@ -70,6 +70,8 @@ export class ApplyCurrentKeithley6221Worker
       )
     );
 
+    await this.keithley6221.output(recipe.instrumentName, 'ON');
+
     for (const currentPoints of currentPointsPieces) {
       for (const currentIntervalPoints of currentPoints) {
         for (const currentPoint of currentIntervalPoints) {
