@@ -120,13 +120,22 @@ registeredInstruments['Keithley 2182'] = Keithley2182;
 
 ## Adding an Experiment
 
+### Adding a Recipe
+
+1. Run the following command to generate the lib of the recipe.
+
+```
+nx g @nrwl/workspace:lib apply-current-keithley-6221 --directory=shared/experiments
+```
+
+2. Implement the recipe.
+
 ### Adding a Renderer
 
 1. Run the following command to generate the lib of the renderer.
 
 ```
 nx g @nrwl/react:lib apply-current-keithley-6221-renderer --directory=front/experiments
-
 ```
 
 2. Implement the renderer.
