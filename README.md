@@ -139,7 +139,7 @@ nx g @nrwl/react:lib apply-current-keithley-6221-renderer --directory=front/expe
 ```
 
 2. Implement the renderer.
-3. Add the renderer into `libs/front/container/src/lib/experiment-renderer-container.ts` by inserting the following.
+3. Add the renderer into `libs/front/experiments/container/src/lib/experiment-renderer-container.ts` by inserting the following.
 
 ```typescript
 bindExperiment(container, ApplyCurrentKeithley6221Renderer);
