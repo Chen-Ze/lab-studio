@@ -1,4 +1,13 @@
-import { Body, Controller, Inject, Param, Post, Sse } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Query,
+  Sse,
+} from '@nestjs/common';
 import { Sequence } from '@lab-studio/shared/data/sequence';
 import { ExperimentService } from './experiment.service';
 import { map, Observable } from 'rxjs';
@@ -12,6 +21,12 @@ export class ExperimentController {
   @Post('start-experiment')
   startExperiment(@Body() sequence: Sequence) {
     const id = this.experimentService.startExperiment(sequence);
+    return id;
+  }
+
+  @Get('terminate-experiment')
+  terminateExperiment(@Query('id') id: string) {
+    this.experimentService.terminateExperiment(id);
     return id;
   }
 

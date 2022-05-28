@@ -25,12 +25,22 @@ export class Ochestrator {
     ) => void
   ) {}
 
+  private terminationFlag = false;
+
+  terminate() {
+    this.terminationFlag = true;
+  }
+
   // TODO: environment should be scoped
   private environment: ExperimentWorkerEnvironment = {
     variables: {},
   };
 
   async start(id: string) {
+    if (this.terminationFlag) {
+      throw Error('Experiment terminated.');
+    }
+
     const routine = this.routines[id];
     const experimentMeasurement = decodeType(routine.input);
     const recipeOutput = experimentMeasurement.recipeOutput;
@@ -84,6 +94,10 @@ export class Ochestrator {
       },
       {
         handover: async () => {
+          if (this.terminationFlag) {
+            // in case there is no subroutine
+            throw Error('Experiment terminated.');
+          }
           for (const key of routine.subroutines) {
             await this.start(key);
           }

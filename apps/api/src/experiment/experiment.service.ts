@@ -12,11 +12,18 @@ import { InstrumentControllerService } from '@lab-studio/api/instrument/instrume
 const MIN_EXPERIMENT_ID_LENGTH = 2;
 const ADDRESSES_POLLING_INTERVAL = 5000;
 
+export interface ExperimentMessage {
+  type: 'data' | 'start' | 'termination';
+  data?: Record<string, number>[];
+}
+
 @Injectable()
 export class ExperimentService {
+  private ochestrators: Record<string, Ochestrator> = {};
+
   private ochestratorSubjects: Record<
     string,
-    Subject<Record<string, number>[]>
+    ReplaySubject<ExperimentMessage>
   > = {};
 
   private addressesObservable = new BehaviorSubject<string[]>([]);
@@ -47,9 +54,7 @@ export class ExperimentService {
       MIN_EXPERIMENT_ID_LENGTH,
       Object.keys(this.ochestratorSubjects)
     );
-    this.ochestratorSubjects[id] = new ReplaySubject<
-      Record<string, number>[]
-    >();
+    this.ochestratorSubjects[id] = new ReplaySubject<ExperimentMessage>();
     const ochestrator = new Ochestrator(
       (routine) => {
         return this.getWorkerByName(getTypeName(routine.input));
@@ -57,14 +62,32 @@ export class ExperimentService {
       R.mapObjIndexed((routineEntity) => routineEntity.routine, sequence),
       (data) => {
         const dataArray = data instanceof Array ? data : [data];
-        this.ochestratorSubjects[id].next(dataArray);
+        this.ochestratorSubjects[id].next({
+          type: 'data',
+          data: dataArray,
+        });
       }
     );
-    ochestrator.start('Root');
+    this.ochestrators[id] = ochestrator;
+    ochestrator
+      .start('Root')
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        this.ochestratorSubjects[id].next({
+          type: 'termination',
+        });
+        this.ochestratorSubjects[id].complete();
+      });
     return id;
   }
 
-  observableById(id: string): Observable<Record<string, number>[]> {
+  terminateExperiment(id: string) {
+    this.ochestrators[id].terminate();
+  }
+
+  observableById(id: string): Observable<ExperimentMessage> {
     return this.ochestratorSubjects[id].asObservable();
   }
 

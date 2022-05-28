@@ -17,7 +17,8 @@ import {
   updateExperiment,
 } from '../../app/experiments.slice';
 import axios from 'axios';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PlayIcon from '@mui/icons-material/PlayCircleFilled';
+import StopIcon from '@mui/icons-material/StopCircle';
 
 import {
   DataGrid,
@@ -46,6 +47,8 @@ export function ExperimentTab() {
 
   const [addresses, setAddresses] = useState<string[]>([]);
 
+  const [currentId, setCurrentId] = useState('');
+
   useEffect(() => {
     const addressesEventSource = new EventSource(
       '/api/experiment/listen-addresses'
@@ -71,14 +74,21 @@ export function ExperimentTab() {
               .then((data) => {
                 console.log(data.data);
                 const id = data.data;
+                setCurrentId(id);
                 const eventSource = new EventSource(
                   `/api/experiment/listen-experiment/${id}`
                 );
                 eventSource.onmessage = (ev) => {
                   console.log(ev.data);
-                  const dataArray: Array<Record<string, number>> = JSON.parse(
-                    ev.data
-                  );
+                  const messageData = JSON.parse(ev.data);
+                  if (messageData.type === 'termination') {
+                    eventSource.close();
+                    return;
+                  } else if (messageData.type === 'start') {
+                    return;
+                  }
+                  const dataArray: Array<Record<string, number>> =
+                    messageData.data;
                   setColumns((columns) => {
                     const dataColumns = [
                       ...new Set(
@@ -110,7 +120,19 @@ export function ExperimentTab() {
               });
           }}
         >
-          <PlayArrowIcon fontSize="large" />
+          <PlayIcon fontSize="large" />
+        </IconButton>
+        <IconButton
+          color="error"
+          onClick={(e) => {
+            axios.get('/api/experiment/terminate-experiment', {
+              params: {
+                id: currentId,
+              },
+            });
+          }}
+        >
+          <StopIcon fontSize="large" />
         </IconButton>
       </Box>
       <renderer.render
